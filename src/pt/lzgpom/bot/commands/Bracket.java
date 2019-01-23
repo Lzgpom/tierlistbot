@@ -26,6 +26,11 @@ public class Bracket implements Command
     private static final String REACTION_CANCEL = "❌";
     private static final String REACTION_CONTINUE = "✅";
 
+    //Reaction Placings
+    private static final String REACTION_FIRST = "🥇";
+    private static final String REACTION_SECOND = "🥈";
+    private static final String REACTION_THIRD = "🥉";
+
     private static final String FILE_MODIFIER = "-f";
     private static final String GROUPS_MODIFIER = "-g";
 
@@ -33,6 +38,7 @@ public class Bracket implements Command
     private Map<User, Integer> counters;
     private Map<User, Integer> minorDisagrees;
     private List<User> participants;
+    private Map<User, Color> userColors;
 
     public Bracket()
     {
@@ -71,6 +77,7 @@ public class Bracket implements Command
         Message message = channel.sendMessage("React to participate!").complete();
         long id = message.getIdLong();
         message.addReaction("🤚").queue();
+        Guild guild = message.getGuild();
 
         try
         {
@@ -88,11 +95,13 @@ public class Bracket implements Command
 
         this.counters = new HashMap<>();
         this.minorDisagrees = new HashMap<>();
+        this.userColors = new HashMap<>();
 
         for(User user : participants)
         {
             this.counters.put(user, counters);
             this.minorDisagrees.put(user, minorDisagrees);
+            this.userColors.put(user, guild.getMember(user).getColor());
         }
     }
 
@@ -146,6 +155,8 @@ public class Bracket implements Command
             Message message = channel.sendMessage(makeDuelMessage(duel, user)).complete();
             long messageId = message.getIdLong();
 
+            Map<User, Integer> userWinners = doMinorDisagrees(user, duel);
+
             //Reactions for the user to interact with.
             message.addReaction(REACTION_A).queue();
             message.addReaction(REACTION_B).queue();
@@ -187,12 +198,101 @@ public class Bracket implements Command
                 }
             }
 
-            bracket.setDuelWinner(duel, winner);
+            bracket.setDuelWinner(duel, user, winner);
 
-            doCounters(channel, user, duel);
+            //Checks if someone disagreed and if all agreed checks if it was everyone.
+            if(!checkMinorDisagrees(channel, duel, userWinners, winner) || userWinners.size() == participants.size() - 1)
+            {
+                doCounters(channel, user, duel);
+            }
         }
 
         end(channel);
+    }
+
+    /**
+     * Treats the start part of minor disagrees per round.
+     * @param user The user who is going to decide.
+     * @param duel The duel to check the minor disagrees.
+     * @return A map with the winners for each user. The map might be empty which mean
+     *         no one had a minor disagree.
+     */
+    private Map<User, Integer> doMinorDisagrees(User user, DuelSolo duel)
+    {
+        Map<User, Long> userMessages = new HashMap<>();
+
+        //Sends the message to all user who can disagree.
+        for(Map.Entry<User, Integer> entry : minorDisagrees.entrySet())
+        {
+            if(!entry.getKey().equals(user))
+            {
+                if(entry.getValue() > 0)
+                {
+                    Message message = entry.getKey().openPrivateChannel().complete().sendMessage(makeDuelMessage(duel, user)).complete();
+                    message.addReaction(REACTION_A).queue();
+                    message.addReaction(REACTION_B).queue();
+
+                    userMessages.put(entry.getKey(), message.getIdLong());
+                }
+            }
+        }
+
+        Map<User, Integer> userWinners = new HashMap<>();
+
+        //If no one had disagrees available
+        if(userMessages.isEmpty())
+        {
+            return userWinners;
+        }
+
+        //Gets the results from the pm sent.
+        while(!userMessages.isEmpty())
+        {
+            for (Iterator<Map.Entry<User, Long>> it = userMessages.entrySet().iterator(); it.hasNext(); )
+            {
+                Map.Entry<User, Long> entry = it.next();
+
+                List<MessageReaction> reactions = entry.getKey().openPrivateChannel().complete().getMessageById(entry.getValue()).complete().getReactions();
+
+                if (hasUserReacted(entry.getKey(), reactions, REACTION_A))
+                {
+                    userWinners.put(entry.getKey(), 0);
+                    it.remove();
+                }
+
+                else if (hasUserReacted(entry.getKey(), reactions, REACTION_B))
+                {
+                    userWinners.put(entry.getKey(), 1);
+                    it.remove();
+                }
+            }
+        }
+
+        return userWinners;
+    }
+
+    /**
+     * Checks if someone disagreed with the previous answer.
+     * @param channel The message channel.
+     * @param duel The duel to counter.
+     * @param userWinners The map with the user's choices.
+     * @param winner The winner selected by the user.
+     * @return If someone disagreed, other false.
+     */
+    private boolean checkMinorDisagrees(MessageChannel channel, DuelSolo duel, Map<User, Integer> userWinners, int winner)
+    {
+        for(Map.Entry<User, Integer> entry : userWinners.entrySet())
+        {
+            if(entry.getValue() != winner)
+            {
+                minorDisagrees.replace(entry.getKey(), minorDisagrees.get(entry.getKey()) - 1);
+                bracket.addDuelCounter(duel, entry.getKey());
+                channel.sendMessage(String.format("The user %s disagrees...", entry.getKey().getName())).queue();
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -355,6 +455,8 @@ public class Bracket implements Command
 
     private void end(MessageChannel channel)
     {
+        channel.sendMessage(String.format("%s %s%n%s %s%n%s %s", REACTION_FIRST, teamToString(bracket.getDuels().get(0).get(0).getWinner()),
+                REACTION_SECOND, teamToString(bracket.getDuels().get(0).get(0).getLooser()), REACTION_THIRD, teamToString(bracket.getDuels().get(0).get(1).getWinner()))).queue();
         uploadBracket(channel);
         bracket = null;
         counters = null;
@@ -394,12 +496,34 @@ public class Bracket implements Command
 
         eb.addField(String.format("%s%nYour turn:", fieldName), user.getName(), true);
 
-        eb.addField("A", teamToString(duel.getFirstChallenger()), true);
-        eb.addField("B", teamToString(duel.getSecondChallenger()), true);
+        eb.addField("A", teamToStringEmbedded(duel.getFirstChallenger()), true);
+        eb.addField("B", teamToStringEmbedded(duel.getSecondChallenger()), true);
 
         return eb.build();
     }
 
+    /**
+     * Creates a String of the team with the challenger and
+     * the link to a image search.
+     * @param team The team to create the string from.
+     * @return The string created.
+     */
+    private static String teamToStringEmbedded(List<Challenger> team)
+    {
+        StringBuilder s = new StringBuilder();
+
+        for(int i = 0; i < team.size(); i++)
+        {
+            s.append(String.format("[%s](%s)", team.get(i).getName(), team.get(i).getUrl()));
+
+            if(i != team.size() - 1)
+            {
+                s.append("\n");
+            }
+        }
+
+        return s.toString();
+    }
     /**
      * Creates a String of the team with the challenger and
      * the link to a image search.
@@ -412,11 +536,11 @@ public class Bracket implements Command
 
         for(int i = 0; i < team.size(); i++)
         {
-            s.append(String.format("[%s](%s)", team.get(i).getName(), team.get(i).getUrl()));
+            s.append(String.format("%s", team.get(i).getName()));
 
             if(i != team.size() - 1)
             {
-                s.append("\n");
+                s.append(", ");
             }
         }
 
@@ -440,7 +564,7 @@ public class Bracket implements Command
      */
     private void uploadBracket(MessageChannel channel)
     {
-        ImageBracket img = new ImageBracket(bracket);
+        ImageBracket img = new ImageBracket(bracket, userColors);
         channel.sendFile(Utils.bufferedImageToInputStream(img.createImage()), "bracket.jpg").queue();
     }
 

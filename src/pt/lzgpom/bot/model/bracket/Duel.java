@@ -58,8 +58,9 @@ public interface Duel
     /**
      * Sets the winner of the dual
      * @param position The position of the winning team.
+     * @param user The user who choose the winner.
      */
-    void setWinner(int position);
+    void setWinner(int position, User user);
 
     /**
      * Returns the looser team of the Dual.
@@ -80,4 +81,12 @@ public interface Duel
      * @see User
      */
     User getCounterUser();
+
+    /**
+     * Returns the user who choose the winner.
+     * @return The user who choose the winner if there was already,
+     *         otherwise {@code null}.
+     * @see User
+     */
+    User getUser();
 }

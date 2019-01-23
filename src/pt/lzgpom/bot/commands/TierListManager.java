@@ -118,13 +118,13 @@ public class TierListManager
 		private final Person person;
 		private final long messageId;
 		
-		public PersonMessage(Person person, long messageId)
+		PersonMessage(Person person, long messageId)
 		{
 			this.person = person;
 			this.messageId = messageId;
 		}
 		
-		public long getMessageId()
+		long getMessageId()
 		{
 			return this.messageId;
 		}

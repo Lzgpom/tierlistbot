@@ -26,8 +26,6 @@ public class Test
 	{
 		BracketSolo bracket = new BracketSolo(createTeams(15), true);
 		System.out.println(bracket);
-		makeRandomWins(bracket, 4);
-
 
 		/*
 		while(bracket.hasNextDuel())
@@ -83,15 +81,5 @@ public class Test
 		}
 
 		return out;
-	}
-
-	private static void makeRandomWins(BracketSolo bracket, int n)
-	{
-		Random random = new Random();
-
-		for(int i = 0; i < n; i++)
-		{
-			bracket.setDuelWinner(bracket.getNextDuel(), random.nextInt(2));
-		}
 	}
 }

@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
+import java.util.Map;
 
 public class ImageDuel
 {
@@ -40,8 +41,9 @@ public class ImageDuel
     /**
      * Draws the {@link Duel} in the graphics at the certain coordinates.
      * @param g The graphics of the image to draw onto.
+     * @param userColors The colors of each {@link User}
      */
-    public void draw(Graphics2D g)
+    public void draw(Graphics2D g, Map<User, Color> userColors)
     {
         g.setColor(Color.DARK_GRAY);
         g.drawRect(midX, midY - (DUEL_HEIGHT / 2), DUEL_WIDTH - (DUEL_HEIGHT / 2), DUEL_HEIGHT);
@@ -71,7 +73,7 @@ public class ImageDuel
             g.drawString(teamName, midX + PADDING, midY + (DUEL_HEIGHT / 4) + (fontSize / 3));
         }
 
-        paintWinner(g);
+        paintWinner(g, userColors);
 
         g.setColor(Color.WHITE);
         g.drawLine(midX, midY, midX + DUEL_WIDTH, midY);
@@ -79,7 +81,7 @@ public class ImageDuel
         drawCounter(g, duel.getCounterUser());
     }
 
-    private void paintWinner(Graphics2D g)
+    private void paintWinner(Graphics2D g, Map<User, Color> userColors)
     {
         if(duel.getWinner() != null)
         {
@@ -91,7 +93,7 @@ public class ImageDuel
                 y = midY - (DUEL_HEIGHT / 2);
             }
 
-            g.setColor(Color.decode("#2C75FF"));
+            g.setColor(userColors.get(duel.getUser()));
             g.fillRect(x, y, (DUEL_HEIGHT / 2), (DUEL_HEIGHT / 2));
             g.drawRect(x, y, (DUEL_HEIGHT / 2), (DUEL_HEIGHT / 2));
         }

@@ -16,6 +16,7 @@ public class DuelSolo implements Duel
     private Map<Integer, List<Challenger>> teams;
     private int winner;
     private int round;
+    private User user;
     private User counterUser;
 
     /**
@@ -109,8 +110,9 @@ public class DuelSolo implements Duel
     }
 
     @Override
-    public void setWinner(int position)
+    public void setWinner(int position, User user)
     {
+        this.user = user;
         this.winner = position;
     }
 
@@ -140,6 +142,12 @@ public class DuelSolo implements Duel
     public User getCounterUser()
     {
         return counterUser;
+    }
+
+    @Override
+    public User getUser()
+    {
+        return user;
     }
 
     @Override

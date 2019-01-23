@@ -65,6 +65,12 @@ public class BracketSolo
             part++;
         }
 
+        //Adds the third place.
+        if(teams >= 4)
+        {
+            duels.get(0).put(1, new DuelSolo(-1));
+        }
+
         //If the bracket size isn't a potency of 2 it adds the rest to the next part.
         if(teams - n > 0)
         {
@@ -173,11 +179,12 @@ public class BracketSolo
      * Sets the winner of the dual and moves the winning
      * team to the next part.
      * @param duel The {@link DuelSolo duel}
+     * @param user The {@link User} who choose the winner.
      * @param winner The position of the winner.
      */
-    public void setDuelWinner(DuelSolo duel, int winner)
+    public void setDuelWinner(DuelSolo duel, User user, int winner)
     {
-        duel.setWinner(winner);
+        duel.setWinner(winner, user);
 
         moveOnWinner(duel);
 
@@ -212,6 +219,13 @@ public class BracketSolo
         if(duel.getWinner() != null)
         {
             int index = getKeyByValue(duels.get(currentPart), duel);
+
+            //Moves the looser to Losers Final
+            if(currentPart == 1)
+            {
+                duels.get(0).get(1).addTeam(duel.getLooser(), index);
+            }
+
             duels.get(currentPart - 1).get(index >> 1).addTeam(duel.getWinner(), (index % 2 == 0) ? 0 : 1);
         }
     }

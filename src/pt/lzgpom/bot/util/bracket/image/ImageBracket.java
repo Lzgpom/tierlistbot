@@ -1,5 +1,6 @@
 package pt.lzgpom.bot.util.bracket.image;
 
+import net.dv8tion.jda.core.entities.User;
 import pt.lzgpom.bot.model.bracket.BracketSolo;
 import pt.lzgpom.bot.model.bracket.impl.DuelSolo;
 
@@ -16,11 +17,15 @@ public class ImageBracket
     private static final int DUELS_PADDING_VERTICAL = 25;
     private static final int DUELS_PADDING_HORIZONTAL = 50;
 
-    private List<Map<Integer, DuelSolo>> bracket;
+    private static final int DUEL_LOOSER_FINAL_PADDING = 100;
 
-    public ImageBracket(BracketSolo bracket)
+    private List<Map<Integer, DuelSolo>> bracket;
+    private Map<User, Color> userColors;
+
+    public ImageBracket(BracketSolo bracket, Map<User, Color> userColors)
     {
         this.bracket = bracket.getDuels();
+        this.userColors = userColors;
     }
 
     public BufferedImage createImage()
@@ -68,6 +73,19 @@ public class ImageBracket
             midX += ImageDuel.DUEL_WIDTH + DUELS_PADDING_HORIZONTAL;
         }
 
+        //Adds the third place
+        if(bracket.size() > 1 && bracket.get(1).size() == 2)
+        {
+            imageDuels.add(new ImageDuel(bracket.get(0).get(1), width - MARGIN_PADDING_HORIZONTAL - ImageDuel.DUEL_WIDTH, height / 2 + DUEL_LOOSER_FINAL_PADDING + ImageDuel.DUEL_HEIGHT));
+
+            int necessary = (height / 2) + DUEL_LOOSER_FINAL_PADDING + ImageDuel.DUEL_HEIGHT + (ImageDuel.DUEL_HEIGHT / 2) + MARGIN_PADDING_VERTICAL;
+
+            if(height < necessary)
+            {
+                height = necessary;
+            }
+        }
+
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         Graphics2D g = image.createGraphics();
 
@@ -83,7 +101,7 @@ public class ImageBracket
 
             if(!part.isDummy())
             {
-                part.draw(g);
+                part.draw(g, userColors);
                 g.setColor(Color.WHITE);
 
                 //Connection front

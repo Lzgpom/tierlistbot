@@ -17,6 +17,7 @@ public class Utils
     public static final Map<Integer, String> phases = new HashMap<Integer, String>()
     {{
         put(0, "Finals");
+        put(-1, "Looser Finals");
         put(1, "Semi-Finals");
         put(2, "Quarter-Finals");
     }};
