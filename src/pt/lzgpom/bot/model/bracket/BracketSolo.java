@@ -185,13 +185,7 @@ public class BracketSolo
     public void setDuelWinner(DuelSolo duel, User user, int winner)
     {
         duel.setWinner(winner, user);
-
         moveOnWinner(duel);
-
-        if(tbdDuelsCurrentPart().size() == 0)
-        {
-            this.currentPart--;
-        }
     }
 
     /**
@@ -203,6 +197,18 @@ public class BracketSolo
     {
         duel.addCounter(user);
         moveOnWinner(duel);
+    }
+
+    /**
+     * If there are no more tbd duels in this part
+     * it move the part no the next one.
+     */
+    public void moveToNextPart()
+    {
+        if(tbdDuelsCurrentPart().size() == 0)
+        {
+            this.currentPart--;
+        }
     }
 
     /**

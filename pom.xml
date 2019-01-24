@@ -141,6 +141,5 @@
             <artifactId>google-http-client-jackson2</artifactId>
             <version>1.25.0</version>
         </dependency>
-
     </dependencies>
 </project>

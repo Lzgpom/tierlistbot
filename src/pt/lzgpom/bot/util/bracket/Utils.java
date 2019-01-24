@@ -6,9 +6,13 @@ import pt.lzgpom.bot.model.bracket.Challenger;
 import pt.lzgpom.bot.model.bracket.impl.ChallengerImpl;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.*;
+import java.util.List;
 
 public class Utils
 {
@@ -21,7 +25,6 @@ public class Utils
         put(1, "Semi-Finals");
         put(2, "Quarter-Finals");
     }};
-
 
     /**
      * Converts a {@link BufferedImage} into a {@link InputStream}.
@@ -149,5 +152,48 @@ public class Utils
     {
         Random random = new Random();
         return challengers.remove(random.nextInt(challengers.size()));
+    }
+
+    /**
+     * Gets a image from a link
+     * @param link The link of the image.
+     * @return The {@link Image} read, if not {@code null}.
+     */
+    public static BufferedImage getImageFromUrl(String link)
+    {
+        try
+        {
+            final URL url = new URL(link);
+            final HttpURLConnection connection = (HttpURLConnection) url
+                    .openConnection();
+            connection.setRequestProperty(
+                    "User-Agent", "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36");
+
+            return ImageIO.read(connection.getInputStream());
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public static BufferedImage getImageSquared(BufferedImage image)
+    {
+        int height = image.getHeight(null);
+        int width = image.getWidth(null);
+
+        if(height > width)
+        {
+            return image.getSubimage(0, 0, width, width);
+        }
+
+        else if(width > height)
+        {
+            return image.getSubimage((width / 2) - (height / 2), 0, height, height);
+        }
+
+        return image;
     }
 }

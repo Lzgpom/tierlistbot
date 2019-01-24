@@ -1,5 +1,4 @@
-﻿Tzuyu:Twice
-Nayeon:Twice
+﻿Nayeon:Twice
 Jeongyeon:Twice
 Momo:Twice
 Sana:Twice
@@ -7,6 +6,7 @@ Jihyo:Twice
 Mina:Twice
 Dahyun:Twice
 Chaeyoung:Twice
+Tzuyu:Twice
 Yeonwoo:Momoland
 Nancy:Momoland
 Joy:Red Velvet
@@ -34,6 +34,7 @@ Solar:Mamamoo
 CL:2NE1
 Amber:f x
 Nako:IZ*One
+Eunbi:IZ*One
 Suzy:Miss A
 Nagyung:Fromis 9
 Hyunjin:Loona

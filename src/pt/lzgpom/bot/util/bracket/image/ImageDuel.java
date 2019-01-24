@@ -3,6 +3,7 @@ package pt.lzgpom.bot.util.bracket.image;
 import net.dv8tion.jda.core.entities.User;
 import pt.lzgpom.bot.model.bracket.Challenger;
 import pt.lzgpom.bot.model.bracket.Duel;
+import pt.lzgpom.bot.util.bracket.Utils;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -139,25 +140,15 @@ public class ImageDuel
     {
         if(user != null)
         {
-            try
+            Image image = Utils.getImageFromUrl(user.getAvatarUrl());
+
+            if(image != null)
             {
-                final URL url = new URL(user.getAvatarUrl());
-                final HttpURLConnection connection = (HttpURLConnection) url
-                        .openConnection();
-                connection.setRequestProperty(
-                        "User-Agent",
-                        "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_5) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.65 Safari/537.31");
-
-                Image image = ImageIO.read(connection.getInputStream());
                 image = image.getScaledInstance(DUEL_HEIGHT / 2, DUEL_HEIGHT / 2, Image.SCALE_DEFAULT);
-
                 g.drawImage(image, midX + DUEL_WIDTH - (DUEL_HEIGHT / 2), midY - (DUEL_HEIGHT / 4), null);
             }
-            catch (IOException e)
-            {
-                e.printStackTrace();
-            }
         }
+
     }
 
     /**

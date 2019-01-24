@@ -201,10 +201,12 @@ public class Bracket implements Command
             bracket.setDuelWinner(duel, user, winner);
 
             //Checks if someone disagreed and if all agreed checks if it was everyone.
-            if(!checkMinorDisagrees(channel, duel, userWinners, winner) || userWinners.size() == participants.size() - 1)
+            if(!checkMinorDisagrees(channel, duel, userWinners, winner) && userWinners.size() != participants.size() - 1)
             {
                 doCounters(channel, user, duel);
             }
+
+            bracket.moveToNextPart();
         }
 
         end(channel);
@@ -455,7 +457,7 @@ public class Bracket implements Command
 
     private void end(MessageChannel channel)
     {
-        channel.sendMessage(String.format("%s %s%n%s %s%n%s %s", REACTION_FIRST, teamToString(bracket.getDuels().get(0).get(0).getWinner()),
+        channel.sendMessage(String.format("The final results are:%n%s %s%n%s %s%n%s %s", REACTION_FIRST, teamToString(bracket.getDuels().get(0).get(0).getWinner()),
                 REACTION_SECOND, teamToString(bracket.getDuels().get(0).get(0).getLooser()), REACTION_THIRD, teamToString(bracket.getDuels().get(0).get(1).getWinner()))).queue();
         uploadBracket(channel);
         bracket = null;
@@ -491,7 +493,7 @@ public class Bracket implements Command
         }
         else
         {
-            fieldName = String.format("Round of %d", (int) Math.pow(2, duel.getRound()));
+            fieldName = String.format("Round of %d", (int) Math.pow(2, duel.getRound() + 1));
         }
 
         eb.addField(String.format("%s%nYour turn:", fieldName), user.getName(), true);
