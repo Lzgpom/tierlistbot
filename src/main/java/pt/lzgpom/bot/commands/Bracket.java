@@ -10,6 +10,7 @@ import pt.lzgpom.bot.model.bracket.Challenger;
 import pt.lzgpom.bot.model.bracket.Duel;
 import pt.lzgpom.bot.model.bracket.impl.DuelSolo;
 import pt.lzgpom.bot.util.bracket.Utils;
+import pt.lzgpom.bot.util.bracket.image.AIImageDuel;
 import pt.lzgpom.bot.util.bracket.image.ImageBracket;
 
 import java.awt.*;
@@ -152,6 +153,7 @@ public class Bracket implements Command
         {
             DuelSolo duel = bracket.getNextDuel();
             User user = getNextUser();
+            channel.sendFile(Utils.bufferedImageToInputStream(new AIImageDuel(duel, counters, minorDisagrees).createImage()), "duel.jpg").queue();
             Message message = channel.sendMessage(makeDuelMessage(duel, user)).complete();
             long messageId = message.getIdLong();
 

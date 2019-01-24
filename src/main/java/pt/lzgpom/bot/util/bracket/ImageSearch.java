@@ -11,7 +11,7 @@ import java.util.List;
 public class ImageSearch
 {
     private static final int HTTP_REQUEST_TIMEOUT = 3 * 600000;
-    private static final String GOOGLE_API_KEY = "AIzaSyAOF63p6y-xlNY1G0n6IfvyXJA5Rn5dZRo";
+    private static final String GOOGLE_API_KEY = "AIzaSyC5hsodXd8hb8yGcWUFnuGZ2VvUu23EIXU";
     private static final String SEARCH_ENGINE_ID = "008441243620261045803:bppouk8bcki";
 
     public static List<Result> search(String keyword)
@@ -47,6 +47,7 @@ public class ImageSearch
         try
         {
             Customsearch.Cse.List list = customsearch.cse().list(keyword);
+            list.setNum((long) 3);
             list.setSearchType("image");
             list.setImgType("photo");
             list.setKey(GOOGLE_API_KEY);

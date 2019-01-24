@@ -12,11 +12,11 @@ public class ChallengerImpl implements Challenger
     private static final String GOOGLE_SEARCH_URL = "https://www.google.com/search";
     private static final String GOOGLE_SEARCH_QUERY = "?q=";
     private static final String GOOGLE_SEARCH_IMAGE_MODIFIER = "&tbm=isch";
-    //private static final String GOOGLE_SEARCH_IMAGE_SQUARE_MODIFIER = "&tbs=iar:s";
 
     private static final String SPACE_QUERY = "%20";
 
     private String name;
+    private String extraInfo;
     private String url;
 
     /**
@@ -27,6 +27,7 @@ public class ChallengerImpl implements Challenger
     public ChallengerImpl(String name, String extraInfo)
     {
         this.name = name;
+        this.extraInfo = extraInfo;
         setUrl(name, extraInfo);
     }
 
@@ -47,6 +48,12 @@ public class ChallengerImpl implements Challenger
     public String getName()
     {
         return name;
+    }
+
+    @Override
+    public String getExtraInfo()
+    {
+        return extraInfo;
     }
 
     @Override

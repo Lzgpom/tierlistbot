@@ -61,7 +61,7 @@ public class ImageDuel
             String teamName = convertTeamToString(duel.getFirstChallenger());
             int fontSize = fontSizeGivenString(teamName);
 
-            g.setFont(new Font("TimesRoman", Font.PLAIN, fontSize));
+            g.setFont(new Font("Arial", Font.PLAIN, fontSize));
             g.drawString(teamName, midX + PADDING, midY - (DUEL_HEIGHT / 4) + (fontSize / 3));
         }
 
@@ -70,7 +70,7 @@ public class ImageDuel
             String teamName = convertTeamToString(duel.getSecondChallenger());
             int fontSize = fontSizeGivenString(teamName);
 
-            g.setFont(new Font("TimesRoman", Font.PLAIN, fontSize));
+            g.setFont(new Font("Arial", Font.PLAIN, fontSize));
             g.drawString(teamName, midX + PADDING, midY + (DUEL_HEIGHT / 4) + (fontSize / 3));
         }
 

@@ -1,5 +1,6 @@
 package pt.lzgpom.bot.util.bracket;
 
+import com.google.api.services.customsearch.model.Result;
 import pt.lzgpom.bot.model.Group;
 import pt.lzgpom.bot.model.Person;
 import pt.lzgpom.bot.model.bracket.Challenger;
@@ -16,7 +17,8 @@ import java.util.List;
 
 public class Utils
 {
-    private static final String DATABASE = "./save/bracket/";
+    private static final String DATABASE = "save/bracket/";
+    private static final String IMAGES = "images/";
     private static final String REGEX_SPLITTER = ":";
     public static final Map<Integer, String> phases = new HashMap<Integer, String>()
     {{
@@ -58,7 +60,7 @@ public class Utils
 
         try
         {
-            Scanner input = new Scanner(new File(DATABASE + file));
+            Scanner input = new Scanner(new File(DATABASE + file), "UTF-8");
 
             while(input.hasNext())
             {
@@ -195,5 +197,51 @@ public class Utils
         }
 
         return image;
+    }
+
+    public static BufferedImage getImageFromSearch(String query)
+    {
+        List<Result> results = ImageSearch.search(query);
+
+        for(Result result : results)
+        {
+            BufferedImage image = getImageFromUrl(result.getLink());
+
+            if(image != null)
+            {
+                return image;
+            }
+        }
+
+        return null;
+    }
+
+    public static BufferedImage getImage(Challenger challenger)
+    {
+        try
+        {
+            return getImageSquared(ImageIO.read(new File(DATABASE + IMAGES + challenger.getName() + ".jpg")));
+        }
+
+        catch (IOException e)
+        {
+            System.out.println("Image not found...");
+            BufferedImage image = getImageFromSearch(challenger.getName()+ " " + challenger.getExtraInfo());
+
+            try
+            {
+                if(image != null)
+                {
+                    ImageIO.write(image, "jpg", new File(DATABASE + IMAGES + challenger.getName() + ".jpg"));
+                    System.out.println("Written image!");
+                }
+            }
+            catch (IOException e1)
+            {
+                e1.printStackTrace();
+            }
+
+            return getImageSquared(image);
+        }
     }
 }

@@ -9,6 +9,12 @@ public interface Challenger
     String getName();
 
     /**
+     * Returns the extra information about the challenger.
+     * @return The extra information about the challenger.
+     */
+    String getExtraInfo();
+
+    /**
      * Returns a google images url of the challenger.
      * @return a google images url of the challenger.
      */

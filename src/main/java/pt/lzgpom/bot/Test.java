@@ -14,7 +14,7 @@ public class Test
 
 	public static void main(String[] args)
 	{
-		List<Result> results = ImageSearch.search("Tzuyu Twice");
+		List<Result> results = ImageSearch.search("Sana Twice");
 
 		for(Result result : results)
 		{
