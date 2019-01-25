@@ -3,8 +3,13 @@ package pt.lzgpom.bot.commands;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.logging.Logger;
 
+import javafx.concurrent.Task;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.entities.MessageReaction;
@@ -25,7 +30,7 @@ public class TierListManager
 	private final Bot bot;
 	
 	private TierList tierlist = null;
-	private HashMap<User, List<PersonMessage>> messages = new HashMap<>();
+	private Map<User, List<PersonMessage>> messages = new HashMap<>();
 	
 	public TierListManager(Bot bot)
 	{
@@ -44,52 +49,77 @@ public class TierListManager
 	{
 		this.tierlist = new TierList(id, group, url);
 		LOGGER.info("TierList created.");
-		
+
+		ExecutorService executor = Executors.newFixedThreadPool(3);
+
 		for(User user : users)
 		{
-			messages.put(user, new ArrayList<PersonMessage>());
-			
-			tierlist.addVoter(new Voter(user.getName(), user.getIdLong()));
-			LOGGER.info("Created user " + user.getName());
-			
-			MessageChannel userChannel = user.openPrivateChannel().complete();
-			userChannel.sendMessage(url).queue();
-			
-			for(Person person : group.getPeople())
+			executor.submit(() ->
 			{
-				Message message = userChannel.sendMessage(person.getName()).complete();
-				messages.get(user).add(new PersonMessage(person, message.getIdLong()));
-				
-				for(int i = 1; i <= group.getNumberOfPeople(); i++)
+				messages.put(user, new ArrayList<>());
+
+				tierlist.addVoter(new Voter(user.getName(), user.getIdLong()));
+				LOGGER.info("Created user " + user.getName());
+
+				MessageChannel userChannel = user.openPrivateChannel().complete();
+				userChannel.sendMessage(url).queue();
+
+				for (Person person : group.getPeople())
 				{
-					message.addReaction(Utils.getReactionInPos(i)).queue();
+
+					Message message = userChannel.sendMessage(person.getName()).complete();
+					messages.get(user).add(new PersonMessage(person, message.getIdLong()));
+
+					for (int i = 1; i <= group.getNumberOfPeople(); i++)
+					{
+						message.addReaction(Utils.getReactionInPos(i)).queue();
+					}
 				}
-			}
+
+			});
 		}
+
+		executor.shutdown();
 	}
 	
 	public void end(MessageChannel mainChannel)
 	{
 		LOGGER.info("Starting to read the scores.");
-		
+
+		List<Future<?>> tasks = new ArrayList<>();
+		ExecutorService executor = Executors.newFixedThreadPool(3);
+
 		for(User user : messages.keySet())
 		{
-			MessageChannel channel = user.openPrivateChannel().complete();
-			
-			for(PersonMessage message : messages.get(user))
+			tasks.add(executor.submit(() ->
 			{
-				for(MessageReaction reaction : channel.getMessageById(message.getMessageId()).complete().getReactions())
+				MessageChannel channel = user.openPrivateChannel().complete();
+
+				for(PersonMessage message : messages.get(user))
 				{
-					if(reaction.getUsers().complete().size() > 1)
+					for(MessageReaction reaction : channel.getMessageById(message.getMessageId()).complete().getReactions())
 					{
-						int score = Utils.getReactionValue(reaction.getReactionEmote().getName());
-						tierlist.getVoterById(user.getIdLong()).addVote(message.person, score);
-						LOGGER.info(String.format("The user %s voted on %s with %d.", user.getName(), message.getPerson().getName(), score));
+						if(reaction.getUsers().complete().size() > 1)
+						{
+							int score = Utils.getReactionValue(reaction.getReactionEmote().getName());
+							tierlist.getVoterById(user.getIdLong()).addVote(message.person, score);
+							LOGGER.info(String.format("The user %s voted on %s with %d.", user.getName(), message.getPerson().getName(), score));
+						}
 					}
 				}
+			}));
+		}
+
+		for(Future<?> task : tasks)
+		{
+			while(true)
+			{
+				if (task.isDone()) break;
 			}
 		}
-		
+
+		executor.shutdown();
+
 		try
 		{
 			tierlist.validateVotes();

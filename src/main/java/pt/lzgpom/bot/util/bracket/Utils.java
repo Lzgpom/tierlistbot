@@ -216,6 +216,13 @@ public class Utils
         return null;
     }
 
+    /**
+     * From the image of the {@link Challenger} from saved files. If
+     * not found google searches for the {@link Challenger}, saves it and
+     * then returns it.
+     * @param challenger The {@link Challenger} to get the image from.
+     * @return The image of the {@link Challenger}.
+     */
     public static BufferedImage getImage(Challenger challenger)
     {
         try
@@ -225,7 +232,6 @@ public class Utils
 
         catch (IOException e)
         {
-            System.out.println("Image not found...");
             BufferedImage image = getImageFromSearch(challenger.getName()+ " " + challenger.getExtraInfo());
 
             try
@@ -233,7 +239,6 @@ public class Utils
                 if(image != null)
                 {
                     ImageIO.write(image, "jpg", new File(DATABASE + IMAGES + challenger.getName() + ".jpg"));
-                    System.out.println("Written image!");
                 }
             }
             catch (IOException e1)
@@ -241,7 +246,12 @@ public class Utils
                 e1.printStackTrace();
             }
 
-            return getImageSquared(image);
+            if(image != null)
+            {
+                return getImageSquared(image);
+            }
         }
+
+        return null;
     }
 }

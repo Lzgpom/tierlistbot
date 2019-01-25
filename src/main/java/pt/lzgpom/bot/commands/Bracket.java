@@ -16,7 +16,7 @@ import pt.lzgpom.bot.util.bracket.image.ImageBracket;
 import java.awt.*;
 import java.util.*;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 public class Bracket implements Command
 {
@@ -149,69 +149,75 @@ public class Bracket implements Command
 
         bracket = new BracketSolo(teams, true);
 
-        while(bracket.hasNextDuel())
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+
+        executor.submit(() ->
         {
-            DuelSolo duel = bracket.getNextDuel();
-            User user = getNextUser();
-            channel.sendFile(Utils.bufferedImageToInputStream(new AIImageDuel(duel, counters, minorDisagrees).createImage()), "duel.jpg").queue();
-            Message message = channel.sendMessage(makeDuelMessage(duel, user)).complete();
-            long messageId = message.getIdLong();
-
-            Map<User, Integer> userWinners = doMinorDisagrees(user, duel);
-
-            //Reactions for the user to interact with.
-            message.addReaction(REACTION_A).queue();
-            message.addReaction(REACTION_B).queue();
-            message.addReaction(REACTION_SEE).queue();
-            message.addReaction(REACTION_CANCEL).queue();
-
-            int winner = -1;
-            boolean hasShownBracket = false;
-
-            while(winner == -1)
+            while(bracket.hasNextDuel())
             {
-                List<MessageReaction> reactions = channel.getMessageById(messageId).complete().getReactions();
+                DuelSolo duel = bracket.getNextDuel();
+                User user = getNextUser();
+                channel.sendFile(Utils.bufferedImageToInputStream(new AIImageDuel(duel, counters, minorDisagrees).createImage()), "duel.jpg").queue();
+                Message message = channel.sendMessage(makeDuelMessage(duel, user)).complete();
+                long messageId = message.getIdLong();
 
-                //Show bracket.
-                if(!hasShownBracket && getPeopleReacted(reactions, REACTION_SEE).size() > 0)
+                Map<User, Integer> userWinners = doMinorDisagrees(user, duel);
+
+                //Reactions for the user to interact with.
+                message.addReaction(REACTION_A).queue();
+                message.addReaction(REACTION_B).queue();
+                message.addReaction(REACTION_SEE).queue();
+                message.addReaction(REACTION_CANCEL).queue();
+
+                int winner = -1;
+                boolean hasShownBracket = false;
+
+                while(winner == -1)
                 {
-                    uploadBracket(channel);
-                    hasShownBracket = true;
+                    List<MessageReaction> reactions = channel.getMessageById(messageId).complete().getReactions();
+
+                    //Show bracket.
+                    if(!hasShownBracket && getPeopleReacted(reactions, REACTION_SEE).size() > 0)
+                    {
+                        uploadBracket(channel);
+                        hasShownBracket = true;
+                    }
+
+                    //Cancel Bracket
+                    if(getPeopleReacted(reactions, REACTION_CANCEL).size() == participants.size())
+                    {
+                        bracket = null;
+                        channel.sendMessage("Bracket canceled!").queue();
+                        return;
+                    }
+
+                    //Set winner to 0.
+                    if(hasUserReacted(user, reactions, REACTION_A))
+                    {
+                        winner = 0;
+                    }
+
+                    //Set winner to 1.
+                    else if(hasUserReacted(user, reactions, REACTION_B))
+                    {
+                        winner = 1;
+                    }
                 }
 
-                //Cancel Bracket
-                if(getPeopleReacted(reactions, REACTION_CANCEL).size() == participants.size())
+                bracket.setDuelWinner(duel, user, winner);
+
+                //Checks if someone disagreed and if all agreed checks if it was everyone.
+                if(!checkMinorDisagrees(channel, duel, userWinners, winner) && userWinners.size() != participants.size() - 1)
                 {
-                    bracket = null;
-                    channel.sendMessage("Bracket canceled!").queue();
-                    return;
+                    doCounters(channel, user, duel, winner);
                 }
 
-                //Set winner to 0.
-                if(hasUserReacted(user, reactions, REACTION_A))
-                {
-                    winner = 0;
-                }
-
-                //Set winner to 1.
-                else if(hasUserReacted(user, reactions, REACTION_B))
-                {
-                    winner = 1;
-                }
+                bracket.moveToNextPart();
             }
 
-            bracket.setDuelWinner(duel, user, winner);
-
-            //Checks if someone disagreed and if all agreed checks if it was everyone.
-            if(!checkMinorDisagrees(channel, duel, userWinners, winner) && userWinners.size() != participants.size() - 1)
-            {
-                doCounters(channel, user, duel);
-            }
-
-            bracket.moveToNextPart();
-        }
-
-        end(channel);
+            end(channel);
+            executor.shutdown();
+        });
     }
 
     /**
@@ -305,12 +311,14 @@ public class Bracket implements Command
      * @param channel The message channel.
      * @param user The {@link User} who decided this round.
      * @param duel The {@link Duel} of this encounter.
+     * @param winner The winner of the round.
      */
-    private void doCounters(MessageChannel channel, User user, DuelSolo duel)
+    private void doCounters(MessageChannel channel, User user, DuelSolo duel, int winner)
     {
         if(hasAnyoneCounter(user))
         {
-            Message message = channel.sendMessage("Counter?").complete();
+            Message message = channel.sendMessage(String.format("%s choose %s, do you wish to counter?",
+                    user.getName(), (winner == 0) ? REACTION_A : REACTION_B)).complete();
             long messageId = message.getIdLong();
 
             message.addReaction(REACTION_COUNTER).queue();

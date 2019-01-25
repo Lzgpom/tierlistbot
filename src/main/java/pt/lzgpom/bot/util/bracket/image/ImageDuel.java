@@ -5,15 +5,11 @@ import pt.lzgpom.bot.model.bracket.Challenger;
 import pt.lzgpom.bot.model.bracket.Duel;
 import pt.lzgpom.bot.util.bracket.Utils;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.List;
 import java.util.Map;
 
-public class ImageDuel
+class ImageDuel
 {
     static final int DUEL_HEIGHT = 150;
     static final int DUEL_WIDTH = 600;
@@ -32,7 +28,7 @@ public class ImageDuel
      * @param midX The mid x coordinate.
      * @param midY The mid y coordinate.
      */
-    public ImageDuel(Duel duel, int midX, int midY)
+    ImageDuel(Duel duel, int midX, int midY)
     {
         this.duel = duel;
         this.midX = midX;
@@ -44,7 +40,7 @@ public class ImageDuel
      * @param g The graphics of the image to draw onto.
      * @param userColors The colors of each {@link User}
      */
-    public void draw(Graphics2D g, Map<User, Color> userColors)
+    void draw(Graphics2D g, Map<User, Color> userColors)
     {
         g.setColor(Color.DARK_GRAY);
         g.drawRect(midX, midY - (DUEL_HEIGHT / 2), DUEL_WIDTH - (DUEL_HEIGHT / 2), DUEL_HEIGHT);
@@ -87,16 +83,40 @@ public class ImageDuel
         if(duel.getWinner() != null)
         {
             int x = midX + DUEL_WIDTH - (DUEL_HEIGHT / 2);
-            int y = midY;
 
-            if(duel.getWinner() == duel.getFirstChallenger())
+            if(duel.getCounterUser() == null)
             {
-                y = midY - (DUEL_HEIGHT / 2);
+                int y = midY;
+
+                if(duel.getWinner() == duel.getFirstChallenger())
+                {
+                    y = midY - (DUEL_HEIGHT / 2);
+                }
+
+                g.setColor(userColors.get(duel.getUser()));
+                g.fillRect(x, y, (DUEL_HEIGHT / 2), (DUEL_HEIGHT / 2));
+                g.drawRect(x, y, (DUEL_HEIGHT / 2), (DUEL_HEIGHT / 2));
             }
 
-            g.setColor(userColors.get(duel.getUser()));
-            g.fillRect(x, y, (DUEL_HEIGHT / 2), (DUEL_HEIGHT / 2));
-            g.drawRect(x, y, (DUEL_HEIGHT / 2), (DUEL_HEIGHT / 2));
+            else
+            {
+                Color first = userColors.get(duel.getCounterUser());
+                Color second = userColors.get(duel.getUser());
+
+               if(duel.getWinner() == duel.getSecondChallenger())
+               {
+                   first = userColors.get(duel.getUser());
+                   second = userColors.get(duel.getCounterUser());
+               }
+
+                g.setColor(first);
+                g.fillRect(x, midY - (DUEL_HEIGHT / 2), (DUEL_HEIGHT / 2), (DUEL_HEIGHT / 2));
+                g.drawRect(x, midY - (DUEL_HEIGHT / 2), (DUEL_HEIGHT / 2), (DUEL_HEIGHT / 2));
+
+                g.setColor(second);
+                g.fillRect(x, midY, (DUEL_HEIGHT / 2), (DUEL_HEIGHT / 2));
+                g.drawRect(x, midY, (DUEL_HEIGHT / 2), (DUEL_HEIGHT / 2));
+            }
         }
     }
 
@@ -176,6 +196,15 @@ public class ImageDuel
     boolean isDummy()
     {
         return duel == null;
+    }
+
+    /**
+     * Returns the duel of this ImageDuel.
+     * @return The duel of this ImageDuel.
+     */
+    public Duel getDuel()
+    {
+        return duel;
     }
 
     /**

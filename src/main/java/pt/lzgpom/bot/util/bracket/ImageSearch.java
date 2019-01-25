@@ -49,7 +49,6 @@ public class ImageSearch
             Customsearch.Cse.List list = customsearch.cse().list(keyword);
             list.setNum((long) 3);
             list.setSearchType("image");
-            list.setImgType("photo");
             list.setKey(GOOGLE_API_KEY);
             list.setCx(SEARCH_ENGINE_ID);
             Search results = list.execute();

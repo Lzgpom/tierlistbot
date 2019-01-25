@@ -3,7 +3,6 @@ package pt.lzgpom.bot.util.bracket.image;
 import net.dv8tion.jda.core.entities.User;
 import pt.lzgpom.bot.model.bracket.Challenger;
 import pt.lzgpom.bot.model.bracket.Duel;
-import pt.lzgpom.bot.util.bracket.ImageSearch;
 import pt.lzgpom.bot.util.bracket.Utils;
 
 import javax.imageio.ImageIO;

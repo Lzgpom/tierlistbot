@@ -5,6 +5,7 @@ import pt.lzgpom.bot.model.bracket.BracketSolo;
 import pt.lzgpom.bot.model.bracket.impl.DuelSolo;
 
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +19,7 @@ public class ImageBracket
     private static final int DUELS_PADDING_HORIZONTAL = 50;
 
     private static final int DUEL_LOOSER_FINAL_PADDING = 100;
+    private static final int LINE_THICKNESS = 5;
 
     private List<Map<Integer, DuelSolo>> bracket;
     private Map<User, Color> userColors;
@@ -93,32 +95,46 @@ public class ImageBracket
         g.setColor(Color.decode("#36393f"));
         g.fillRect(0, 0, width, height);
 
-        g.setStroke(new BasicStroke(5));
+        g.setStroke(new BasicStroke(LINE_THICKNESS));
 
-        for(int i = 0; i < imageDuels.size(); i++)
+        for(ImageDuel part : imageDuels)
         {
-            ImageDuel part = imageDuels.get(i);
-
-            if(!part.isDummy())
+            if (!part.isDummy())
             {
                 part.draw(g, userColors);
-                g.setColor(Color.WHITE);
 
                 //Connection front
-                if(part.getMidX() + ImageDuel.DUEL_WIDTH < width - MARGIN_PADDING_HORIZONTAL)
+                if (part.getMidX() + ImageDuel.DUEL_WIDTH < width - MARGIN_PADDING_HORIZONTAL)
                 {
+                    Color color = Color.WHITE;
+
+                    if(part.getDuel().getWinner() != null)
+                    {
+                        color = (part.getDuel().getCounterUser() != null) ? userColors.get(part.getDuel().getCounterUser()) : userColors.get(part.getDuel().getUser());
+                    }
+
+                    g.setColor(color);
+
                     //Front part
-                    g.drawLine(part.getMidX() + ImageDuel.DUEL_WIDTH, part.getMidY(), part.getMidX() + ImageDuel.DUEL_WIDTH + (DUELS_PADDING_HORIZONTAL / 2), part.getMidY());
+                    g.drawLine(part.getMidX() + ImageDuel.DUEL_WIDTH + LINE_THICKNESS, part.getMidY(), part.getMidX() + ImageDuel.DUEL_WIDTH + (DUELS_PADDING_HORIZONTAL / 2), part.getMidY());
 
-                    int startX = part.getMidX() + (DUELS_PADDING_HORIZONTAL / 2) + ImageDuel.DUEL_WIDTH;
+                    //Vertical line
+                    int startX = part.getMidX() + (DUELS_PADDING_HORIZONTAL / 2) + ImageDuel.DUEL_WIDTH - (LINE_THICKNESS / 2);
                     int startY = part.getMidY();
-                    int endX = part.getNext().getMidX() - (DUELS_PADDING_HORIZONTAL / 2);
-                    int endY = part.getNext().getMidY();
 
-                    //Vertical line.
-                    g.drawLine(startX, startY, endX, endY);
+                    GradientPaint gradient = new GradientPaint(startX, startY, color, startX, startY + Math.abs(part.getMidY() - part.getNext().getMidY()), Color.WHITE);
+
+                    if(startY > part.getNext().getMidY())
+                    {
+                        startY = part.getNext().getMidY();
+                        gradient = new GradientPaint(startX, startY + Math.abs(part.getMidY() - part.getNext().getMidY()), color, startX, startY, Color.WHITE);
+                    }
+
+                    g.setPaint(gradient);
+                    g.fill(new Rectangle2D.Double(startX, startY, LINE_THICKNESS, Math.abs(part.getMidY() - part.getNext().getMidY())));
 
                     //Back part of the next.
+                    g.setColor(Color.WHITE);
                     g.drawLine(part.getNext().getMidX() - (DUELS_PADDING_HORIZONTAL / 2), part.getNext().getMidY(), part.getNext().getMidX(), part.getNext().getMidY());
                 }
             }
