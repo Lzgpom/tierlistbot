@@ -492,7 +492,7 @@ public class Bracket implements Command
     private MessageEmbed makeDuelMessage(Duel duel, User user)
     {
         EmbedBuilder eb = new EmbedBuilder();
-        eb.setColor(Color.YELLOW);
+        eb.setColor(userColors.get(user));
 
         String fieldName;
         String phase = Utils.phases.get(duel.getRound());

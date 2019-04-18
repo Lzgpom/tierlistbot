@@ -15,7 +15,7 @@ import java.util.Set;
 
 public class AIImageDuel
 {
-    private static final String ASSET_VS_LOCATION = "target/classes/duel/vs.png";
+    private static final String ASSET_VS_LOCATION = "save/assets/vs.png";
 
     private static final int MARGIN_PADDING_HORIZONTAL = 20;
     private static final int MARGIN_PADDING_VERTICAL = 20;
