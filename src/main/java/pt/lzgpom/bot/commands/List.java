@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.entities.MessageEmbed;
+import net.dv8tion.jda.core.entities.User;
 import pt.lzgpom.bot.lib.Config;
 import pt.lzgpom.bot.model.Bot;
 import pt.lzgpom.bot.model.TierList;
@@ -34,7 +35,7 @@ public class List implements Command
 	}
 
 	@Override
-	public void run(String[] args, Bot bot, MessageChannel channel)
+	public void run(String[] args, Bot bot, MessageChannel channel, User user)
 	{
 		int totalPages = (int) Math.ceil((double)bot.getTierLists().size() / Config.LISTS_PER_PAGE);
 		int page = 1;

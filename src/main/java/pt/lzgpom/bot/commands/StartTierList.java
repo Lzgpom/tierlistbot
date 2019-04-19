@@ -37,7 +37,7 @@ public class StartTierList implements Command
 	}
 
 	@Override
-	public void run(String[] args, Bot bot, MessageChannel channel) 
+	public void run(String[] args, Bot bot, MessageChannel channel, User user)
 	{
 		if(bot.getTierListManager().hasTierListStarted())
 		{

@@ -34,6 +34,7 @@ public class Main
 		bot.getCommandManager().addCommand(new GraphCompare());
 		bot.getCommandManager().addCommand(new Video());
 		bot.getCommandManager().addCommand(new Bracket());
+		bot.getCommandManager().addCommand(new Sort());
 		
 		JDABuilder builder = new JDABuilder(AccountType.BOT);
 		builder.setToken("NDYzNDU2Mjg2NDk1OTk3OTYy.Dhwq4g.wdQlGflviPjF6jMIY_nrUT_xDR0");

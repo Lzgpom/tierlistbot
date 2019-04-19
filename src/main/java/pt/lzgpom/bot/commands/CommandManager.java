@@ -56,7 +56,7 @@ public class CommandManager extends ListenerAdapter
 				{
 					if(args[0].equalsIgnoreCase(commandName))
 					{
-						command.run(Arrays.copyOfRange(args, 1, args.length), bot, event.getChannel());
+						command.run(Arrays.copyOfRange(args, 1, args.length), bot, event.getChannel(), event.getAuthor());
 					}
 				}
 			}

@@ -137,10 +137,32 @@ public class TierListManager
 			tierlist.clearVoters();
 		}
 	}
+
+	/**
+	 * Autocompletes the user tierlist given a ordered list of the people.
+	 * @param user The user to autocomplete.
+	 * @param people The list of people in the correct order.
+	 */
+	public void autoCompleteWithSort(User user, List<Person> people) {
+		if(!messages.containsKey(user)) {
+			throw new IllegalArgumentException("You are not participating in this tierlist.");
+		}
+
+		messages.remove(user);
+
+		for(int i = 1; i <= people.size(); i++) {
+			tierlist.getVoterByName(user.getName()).addVote(people.get(i - 1), i);
+		}
+	}
 	
 	public void clear()
 	{
 		this.tierlist = null;
+	}
+
+	public Group getGroup()
+	{
+		return this.tierlist.getGroup();
 	}
 	
 	private class PersonMessage

@@ -22,6 +22,7 @@ import com.googlecode.charts4j.Plots;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.entities.MessageEmbed;
+import net.dv8tion.jda.core.entities.User;
 import pt.lzgpom.bot.lib.Config;
 import pt.lzgpom.bot.model.Bot;
 import pt.lzgpom.bot.model.Group;
@@ -52,7 +53,7 @@ public class GraphCompare implements Command
 	}
 
 	@Override
-	public void run(String[] args, Bot bot, MessageChannel channel) 
+	public void run(String[] args, Bot bot, MessageChannel channel, User user)
 	{
 		try
 		{

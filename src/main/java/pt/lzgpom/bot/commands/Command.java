@@ -2,6 +2,7 @@ package pt.lzgpom.bot.commands;
 
 import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.entities.MessageEmbed;
+import net.dv8tion.jda.core.entities.User;
 import pt.lzgpom.bot.model.Bot;
 
 public interface Command 
@@ -11,7 +12,7 @@ public interface Command
 	 * 
 	 * @return a the name of the command.
 	 */
-	public default String getCommandName()
+	default String getCommandName()
 	{
 		return getCommands().get(0);
 	}
@@ -21,14 +22,14 @@ public interface Command
 	 * 
 	 * @return a list of all available options for the command.
 	 */
-	public java.util.List<String> getCommands();
+	java.util.List<String> getCommands();
 	
 	/**
 	 * Returns a brief description of the command.
 	 * 
 	 * @return a brief description of the command.
 	 */
-	public String getDescription();
+	String getDescription();
 	
 	/**
 	 * Runs the command.
@@ -36,13 +37,14 @@ public interface Command
 	 * @param args The arguments passed to the command.
 	 * @param bot The bot with all the info.
 	 * @param channel The channel where the message was sent.
+	 * @param user The author of the message.
 	 */
-	public void run(String[] args, Bot bot, MessageChannel channel);
+	void run(String[] args, Bot bot, MessageChannel channel, User user);
 	
 	/**
 	 * Returns a message with the way the command is used.
 	 * 
 	 * @return a message with the way the command is used.
 	 */
-	public MessageEmbed getHelpMessage();
+	MessageEmbed getHelpMessage();
 }

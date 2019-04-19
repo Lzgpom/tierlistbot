@@ -93,4 +93,15 @@ public class Converter
 		
 		return eb.build();
 	}
+
+	public static String peopleListToMessage(List<Person> people) {
+		StringBuilder message = new StringBuilder();
+		message.append("=============Results=============\n");
+
+		for(int i = 0; i < people.size(); i++) {
+			message.append(String.format("%s %s%n", Utils.getReactionInPos(i + 1), people.get(i).getName()));
+		}
+
+		return message.toString();
+	}
 }

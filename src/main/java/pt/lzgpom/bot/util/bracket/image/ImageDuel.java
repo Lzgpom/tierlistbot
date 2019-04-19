@@ -24,7 +24,7 @@ class ImageDuel
 
     /**
      * Creates an instance of ImageDuel.
-     * @param duel The duel to draw.
+     * @param duel The assets to draw.
      * @param midX The mid x coordinate.
      * @param midY The mid y coordinate.
      */
@@ -199,8 +199,8 @@ class ImageDuel
     }
 
     /**
-     * Returns the duel of this ImageDuel.
-     * @return The duel of this ImageDuel.
+     * Returns the assets of this ImageDuel.
+     * @return The assets of this ImageDuel.
      */
     public Duel getDuel()
     {

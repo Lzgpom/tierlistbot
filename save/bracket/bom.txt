@@ -1,4 +1,4 @@
-Nayeon:Twice
+﻿Nayeon:Twice
 Jeongyeon:Twice
 Momo:Twice
 Sana:Twice
@@ -39,3 +39,5 @@ Suzy:Miss A
 Nagyung:Fromis 9
 Hyunjin:Loona
 Hyosung:Secret
+Yeri:Red Velvet
+Wendy:Red Velvet

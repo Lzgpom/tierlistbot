@@ -107,7 +107,7 @@ public class Bracket implements Command
     }
 
     @Override
-    public void run(String[] args, Bot bot, MessageChannel channel)
+    public void run(String[] args, Bot bot, MessageChannel channel, User author)
     {
         if(isBracketRunning())
         {
@@ -223,7 +223,7 @@ public class Bracket implements Command
     /**
      * Treats the start part of minor disagrees per round.
      * @param user The user who is going to decide.
-     * @param duel The duel to check the minor disagrees.
+     * @param duel The assets to check the minor disagrees.
      * @return A map with the winners for each user. The map might be empty which mean
      *         no one had a minor disagree.
      */
@@ -284,7 +284,7 @@ public class Bracket implements Command
     /**
      * Checks if someone disagreed with the previous answer.
      * @param channel The message channel.
-     * @param duel The duel to counter.
+     * @param duel The assets to counter.
      * @param userWinners The map with the user's choices.
      * @param winner The winner selected by the user.
      * @return If someone disagreed, other false.
@@ -306,7 +306,7 @@ public class Bracket implements Command
     }
 
     /**
-     * After the duel it awaits for someone to counter or for all
+     * After the assets it awaits for someone to counter or for all
      * the participants to continue.
      * @param channel The message channel.
      * @param user The {@link User} who decided this round.
@@ -336,7 +336,7 @@ public class Bracket implements Command
 
                     if (counterUser != null)
                     {
-                        channel.sendMessage(String.format("%s countered the duel!!!", counterUser.getName())).queue();
+                        channel.sendMessage(String.format("%s countered the assets!!!", counterUser.getName())).queue();
                         return;
                     }
                 }
@@ -363,7 +363,7 @@ public class Bracket implements Command
      * Checks if someone tried to add a counter. If someone did it adds it.
      * @param user The user who is voting.
      * @param reactions The reactions of the message.
-     * @param duel The duel to add the counter.
+     * @param duel The assets to add the counter.
      * @return If a counter was added, otherwise false.
      */
     private User addCounter(User user, List<MessageReaction> reactions, DuelSolo duel)
@@ -376,14 +376,21 @@ public class Bracket implements Command
             {
                 if(counterUser != user)
                 {
-                    int n = counters.get(counterUser);
-
-                    if(n > 0)
+                    try
                     {
-                        bracket.addDuelCounter(duel, counterUser);
-                        counters.replace(counterUser, n - 1);
+                        int n = counters.get(counterUser);
 
-                        return counterUser;
+                        if(n > 0)
+                        {
+                            bracket.addDuelCounter(duel, counterUser);
+                            counters.replace(counterUser, n - 1);
+
+                            return counterUser;
+                        }
+                    }
+                    catch (NullPointerException ignored)
+                    {
+
                     }
                 }
             }
@@ -484,7 +491,7 @@ public class Bracket implements Command
     }
 
     /**
-     * Creates a {@link MessageEmbed} of a duel.
+     * Creates a {@link MessageEmbed} of a assets.
      * @param duel The {@link Duel} to convert to message.
      * @param user The {@link User} to answer this dual.
      * @return The {@link MessageEmbed} created.
