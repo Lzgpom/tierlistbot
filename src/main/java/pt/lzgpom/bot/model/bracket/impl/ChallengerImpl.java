@@ -32,6 +32,18 @@ public class ChallengerImpl implements Challenger
     }
 
     /**
+     * Creates an instance of ChallengerImpl
+     * @param name The name of the challenger
+     * @param extraInfo Extra information of the challenger
+     * @param url The url fo the challenger.
+     */
+    public ChallengerImpl(String name, String extraInfo, String url) {
+        this.name = name;
+        this.extraInfo = extraInfo;
+        this.url = url;
+    }
+
+    /**
      * Given extra info about the challenger creates a google image url.
      * @param name The name of the challenger.
      * @param extraInfo The extra information about the challenger.

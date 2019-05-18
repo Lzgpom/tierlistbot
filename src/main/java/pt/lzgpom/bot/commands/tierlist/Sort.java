@@ -1,7 +1,8 @@
-package pt.lzgpom.bot.commands;
+package pt.lzgpom.bot.commands.tierlist;
 
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.*;
+import pt.lzgpom.bot.commands.Command;
 import pt.lzgpom.bot.model.Bot;
 import pt.lzgpom.bot.model.Group;
 import pt.lzgpom.bot.model.Person;
@@ -275,11 +276,8 @@ public class Sort implements Command {
                 return true;
             }
 
-            if (this.p2.equals(p1) && this.p1.equals(p2)) {
-                return true;
-            }
+            return this.p2.equals(p1) && this.p1.equals(p2);
 
-            return false;
         }
     }
 }

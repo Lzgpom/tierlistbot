@@ -1,4 +1,4 @@
-package pt.lzgpom.bot.commands;
+package pt.lzgpom.bot.commands.tierlist;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,7 +9,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.logging.Logger;
 
-import javafx.concurrent.Task;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.entities.MessageReaction;
@@ -40,12 +39,12 @@ public class TierListManager
 	/**
 	 * @return If a tierlist is going already.
 	 */
-	public boolean hasTierListStarted()
+	boolean hasTierListStarted()
 	{
 		return tierlist != null;
 	}
 	
-	public void start(List<User> users, String id, Group group, String url)
+	void start(List<User> users, String id, Group group, String url)
 	{
 		this.tierlist = new TierList(id, group, url);
 		LOGGER.info("TierList created.");
@@ -82,7 +81,7 @@ public class TierListManager
 		executor.shutdown();
 	}
 	
-	public void end(MessageChannel mainChannel)
+	void end(MessageChannel mainChannel)
 	{
 		LOGGER.info("Starting to read the scores.");
 
@@ -143,7 +142,7 @@ public class TierListManager
 	 * @param user The user to autocomplete.
 	 * @param people The list of people in the correct order.
 	 */
-	public void autoCompleteWithSort(User user, List<Person> people) {
+	void autoCompleteWithSort(User user, List<Person> people) {
 		if(!messages.containsKey(user)) {
 			throw new IllegalArgumentException("You are not participating in this tierlist.");
 		}
@@ -155,7 +154,7 @@ public class TierListManager
 		}
 	}
 	
-	public void clear()
+	void clear()
 	{
 		this.tierlist = null;
 	}

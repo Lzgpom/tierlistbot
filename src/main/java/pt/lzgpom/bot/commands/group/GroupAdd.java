@@ -1,4 +1,4 @@
-package pt.lzgpom.bot.commands;
+package pt.lzgpom.bot.commands.group;
 
 import java.awt.Color;
 import java.text.ParseException;
@@ -9,6 +9,7 @@ import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
+import pt.lzgpom.bot.commands.Command;
 import pt.lzgpom.bot.lib.Config;
 import pt.lzgpom.bot.model.Bot;
 import pt.lzgpom.bot.model.Group;

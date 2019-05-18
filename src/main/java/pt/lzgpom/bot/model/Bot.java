@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import pt.lzgpom.bot.commands.CommandManager;
-import pt.lzgpom.bot.commands.TierListManager;
+import pt.lzgpom.bot.commands.tierlist.TierListManager;
 
 @XmlRootElement(name = "centre")
 public class Bot 
