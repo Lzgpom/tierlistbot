@@ -1,0 +1,582 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="order.xsl"?>
+<groups>
+    <group name="Twice">
+        <person name="Nayeon">
+            <average>6.3</average>
+            <variance>2.02</variance>
+        </person>
+        <person name="Jeongyeon">
+            <average>5.12</average>
+            <variance>2.5</variance>
+        </person>
+        <person name="Momo">
+            <average>3.88</average>
+            <variance>2.11</variance>
+        </person>
+        <person name="Sana">
+            <average>3.11</average>
+            <variance>1.79</variance>
+        </person>
+        <person name="Jihyo">
+            <average>5.43</average>
+            <variance>2.23</variance>
+        </person>
+        <person name="Mina">
+            <average>4.53</average>
+            <variance>2.31</variance>
+        </person>
+        <person name="Dahyun">
+            <average>5.67</average>
+            <variance>2.31</variance>
+        </person>
+        <person name="Chaeyoung">
+            <average>8.11</average>
+            <variance>1.32</variance>
+        </person>
+        <person name="Tzuyu">
+            <average>2.84</average>
+            <variance>1.74</variance>
+        </person>
+    </group>
+    <group name="Twice_MVs">
+        <person name="Like_OOH-AHH">
+            <average>NaN</average>
+            <variance>NaN</variance>
+        </person>
+        <person name="CHEER_UP">
+            <average>NaN</average>
+            <variance>NaN</variance>
+        </person>
+        <person name="TT">
+            <average>NaN</average>
+            <variance>NaN</variance>
+        </person>
+        <person name="KNOCK_KNOCK">
+            <average>NaN</average>
+            <variance>NaN</variance>
+        </person>
+        <person name="SIGNAL">
+            <average>NaN</average>
+            <variance>NaN</variance>
+        </person>
+        <person name="TT-JAP">
+            <average>NaN</average>
+            <variance>NaN</variance>
+        </person>
+        <person name="One_More_Time">
+            <average>NaN</average>
+            <variance>NaN</variance>
+        </person>
+        <person name="LIKEY">
+            <average>NaN</average>
+            <variance>NaN</variance>
+        </person>
+        <person name="Heart_Shaker">
+            <average>NaN</average>
+            <variance>NaN</variance>
+        </person>
+        <person name="Merry_&amp;_Happy">
+            <average>NaN</average>
+            <variance>NaN</variance>
+        </person>
+        <person name="Candy_Pop">
+            <average>NaN</average>
+            <variance>NaN</variance>
+        </person>
+        <person name="BRAND_NEW_GIRL">
+            <average>NaN</average>
+            <variance>NaN</variance>
+        </person>
+        <person name="What_is_Love?">
+            <average>NaN</average>
+            <variance>NaN</variance>
+        </person>
+        <person name="Wake_Me_Up">
+            <average>NaN</average>
+            <variance>NaN</variance>
+        </person>
+        <person name="I_WANT_YOU_BACK">
+            <average>NaN</average>
+            <variance>NaN</variance>
+        </person>
+        <person name="DANCE_THE_NIGHT_AWAY">
+            <average>NaN</average>
+            <variance>NaN</variance>
+        </person>
+        <person name="BDZ">
+            <average>NaN</average>
+            <variance>NaN</variance>
+        </person>
+    </group>
+    <group name="Blackpink">
+        <person name="Jisoo">
+            <average>2.67</average>
+            <variance>0.58</variance>
+        </person>
+        <person name="Jennie">
+            <average>1</average>
+            <variance>0</variance>
+        </person>
+        <person name="Rosé">
+            <average>2.33</average>
+            <variance>0.58</variance>
+        </person>
+        <person name="Lisa">
+            <average>4</average>
+            <variance>0</variance>
+        </person>
+    </group>
+    <group name="Gfriend">
+        <person name="Sowon">
+            <average>2.1</average>
+            <variance>1.24</variance>
+        </person>
+        <person name="Yerin">
+            <average>5.6</average>
+            <variance>0.86</variance>
+        </person>
+        <person name="Eunha">
+            <average>2.5</average>
+            <variance>1.33</variance>
+        </person>
+        <person name="Yuju">
+            <average>2.8</average>
+            <variance>1.24</variance>
+        </person>
+        <person name="SinB">
+            <average>4.03</average>
+            <variance>1.07</variance>
+        </person>
+        <person name="Umji">
+            <average>3.97</average>
+            <variance>1.65</variance>
+        </person>
+    </group>
+    <group name="Momoland">
+        <person name="Hyebin">
+            <average>NaN</average>
+            <variance>NaN</variance>
+        </person>
+        <person name="Yeonwoo">
+            <average>NaN</average>
+            <variance>NaN</variance>
+        </person>
+        <person name="Jane">
+            <average>NaN</average>
+            <variance>NaN</variance>
+        </person>
+        <person name="Taeha">
+            <average>NaN</average>
+            <variance>NaN</variance>
+        </person>
+        <person name="Nayun">
+            <average>NaN</average>
+            <variance>NaN</variance>
+        </person>
+        <person name="Daisy">
+            <average>NaN</average>
+            <variance>NaN</variance>
+        </person>
+        <person name="JooE">
+            <average>NaN</average>
+            <variance>NaN</variance>
+        </person>
+        <person name="Ahin">
+            <average>NaN</average>
+            <variance>NaN</variance>
+        </person>
+        <person name="Nancy">
+            <average>NaN</average>
+            <variance>NaN</variance>
+        </person>
+    </group>
+    <group name="Red_Velvet">
+        <person name="Irene">
+            <average>2</average>
+            <variance>1</variance>
+        </person>
+        <person name="Seulgi">
+            <average>4</average>
+            <variance>1.73</variance>
+        </person>
+        <person name="Wendy">
+            <average>3</average>
+            <variance>2</variance>
+        </person>
+        <person name="Joy">
+            <average>3</average>
+            <variance>1</variance>
+        </person>
+        <person name="Yeri">
+            <average>3</average>
+            <variance>1.73</variance>
+        </person>
+    </group>
+    <group name="Loona">
+        <person name="Vivi">
+            <average>NaN</average>
+            <variance>NaN</variance>
+        </person>
+        <person name="Yves">
+            <average>NaN</average>
+            <variance>NaN</variance>
+        </person>
+        <person name="Jinsoul">
+            <average>NaN</average>
+            <variance>NaN</variance>
+        </person>
+        <person name="Haseul">
+            <average>NaN</average>
+            <variance>NaN</variance>
+        </person>
+        <person name="KimLip">
+            <average>NaN</average>
+            <variance>NaN</variance>
+        </person>
+        <person name="Chuu">
+            <average>NaN</average>
+            <variance>NaN</variance>
+        </person>
+        <person name="Heejin">
+            <average>NaN</average>
+            <variance>NaN</variance>
+        </person>
+        <person name="Hyunjin">
+            <average>NaN</average>
+            <variance>NaN</variance>
+        </person>
+        <person name="Gowon">
+            <average>NaN</average>
+            <variance>NaN</variance>
+        </person>
+        <person name="Choerry">
+            <average>NaN</average>
+            <variance>NaN</variance>
+        </person>
+        <person name="Olivia">
+            <average>NaN</average>
+            <variance>NaN</variance>
+        </person>
+        <person name="Yeojin">
+            <average>NaN</average>
+            <variance>NaN</variance>
+        </person>
+    </group>
+    <group name="Sagadovento">
+        <person name="GONE_WITH_THE_WIND">
+            <average>1.33</average>
+            <variance>0.58</variance>
+        </person>
+        <person name="WINDY_WINDY">
+            <average>1.67</average>
+            <variance>0.58</variance>
+        </person>
+        <person name="HEAR_THE_WIND_SING">
+            <average>3</average>
+            <variance>0</variance>
+        </person>
+    </group>
+    <group name="Gfriend_MVs">
+        <person name="GLASS_BEAD">
+            <average>7.67</average>
+            <variance>1.37</variance>
+        </person>
+        <person name="ME_GUSTAS_TU">
+            <average>4.5</average>
+            <variance>1.76</variance>
+        </person>
+        <person name="ROUGH">
+            <average>4.5</average>
+            <variance>2.81</variance>
+        </person>
+        <person name="NAVILLERA">
+            <average>5.33</average>
+            <variance>2.66</variance>
+        </person>
+        <person name="FINGERTIP">
+            <average>5.17</average>
+            <variance>2.79</variance>
+        </person>
+        <person name="LOVE_WHISPER">
+            <average>6.33</average>
+            <variance>0.82</variance>
+        </person>
+        <person name="SUMMER_RAIN">
+            <average>4</average>
+            <variance>2.28</variance>
+        </person>
+        <person name="TIME_FOR_THE_MOON_NIGHT">
+            <average>1.67</average>
+            <variance>0.82</variance>
+        </person>
+        <person name="SUNNY_SUMMER">
+            <average>5.83</average>
+            <variance>3.31</variance>
+        </person>
+    </group>
+    <group name="Twicefriend">
+        <person name="Nayeon">
+            <average>8</average>
+            <variance>3.79</variance>
+        </person>
+        <person name="Sowon">
+            <average>5</average>
+            <variance>1.26</variance>
+        </person>
+        <person name="Yerin">
+            <average>14.17</average>
+            <variance>1.33</variance>
+        </person>
+        <person name="Jeongyeon">
+            <average>8.33</average>
+            <variance>2.07</variance>
+        </person>
+        <person name="Momo">
+            <average>3.83</average>
+            <variance>1.94</variance>
+        </person>
+        <person name="Sana">
+            <average>1.83</average>
+            <variance>0.98</variance>
+        </person>
+        <person name="Jihyo">
+            <average>9.83</average>
+            <variance>1.83</variance>
+        </person>
+        <person name="Mina">
+            <average>4.17</average>
+            <variance>2.48</variance>
+        </person>
+        <person name="Eunha">
+            <average>8</average>
+            <variance>3.41</variance>
+        </person>
+        <person name="Yuju">
+            <average>8.33</average>
+            <variance>3.61</variance>
+        </person>
+        <person name="Dahyun">
+            <average>8.5</average>
+            <variance>2.43</variance>
+        </person>
+        <person name="SinB">
+            <average>11.17</average>
+            <variance>2.14</variance>
+        </person>
+        <person name="Umji">
+            <average>12.5</average>
+            <variance>2.07</variance>
+        </person>
+        <person name="Chaeyoung">
+            <average>13.83</average>
+            <variance>0.75</variance>
+        </person>
+        <person name="Tzuyu">
+            <average>2.5</average>
+            <variance>1.05</variance>
+        </person>
+    </group>
+    <group name="Twice_Eras">
+        <person name="Like_OOH-AHH">
+            <average>7.17</average>
+            <variance>4.04</variance>
+        </person>
+        <person name="CHEER_UP">
+            <average>11.75</average>
+            <variance>2.86</variance>
+        </person>
+        <person name="TT">
+            <average>7</average>
+            <variance>4.13</variance>
+        </person>
+        <person name="KNOCK_KNOCK">
+            <average>6.25</average>
+            <variance>3.11</variance>
+        </person>
+        <person name="SIGNAL">
+            <average>10.58</average>
+            <variance>4.7</variance>
+        </person>
+        <person name="One_More_Time">
+            <average>10.42</average>
+            <variance>4.17</variance>
+        </person>
+        <person name="LIKEY">
+            <average>9.58</average>
+            <variance>4.48</variance>
+        </person>
+        <person name="Heart_Shaker">
+            <average>5.75</average>
+            <variance>3.19</variance>
+        </person>
+        <person name="Candy_Pop">
+            <average>12.08</average>
+            <variance>2.71</variance>
+        </person>
+        <person name="BRAND_NEW_GIRL">
+            <average>9.75</average>
+            <variance>2.49</variance>
+        </person>
+        <person name="What_is_Love?">
+            <average>5.25</average>
+            <variance>3.96</variance>
+        </person>
+        <person name="Wake_Me_Up">
+            <average>6.42</average>
+            <variance>4.5</variance>
+        </person>
+        <person name="I_WANT_YOU_BACK">
+            <average>8.42</average>
+            <variance>4.1</variance>
+        </person>
+        <person name="DANCE_THE_NIGHT_AWAY">
+            <average>4.92</average>
+            <variance>3.29</variance>
+        </person>
+        <person name="BDZ">
+            <average>4.67</average>
+            <variance>3.11</variance>
+        </person>
+    </group>
+    <group name="Hush_KBS">
+        <person name="MIJOO">
+            <average>4.33</average>
+            <variance>1.53</variance>
+        </person>
+        <person name="SOWON">
+            <average>3.67</average>
+            <variance>2.08</variance>
+        </person>
+        <person name="YEONWOO">
+            <average>5</average>
+            <variance>1</variance>
+        </person>
+        <person name="JOY">
+            <average>2.33</average>
+            <variance>0.58</variance>
+        </person>
+        <person name="JIHO">
+            <average>4.67</average>
+            <variance>0.58</variance>
+        </person>
+        <person name="TZUYU">
+            <average>1</average>
+            <variance>0</variance>
+        </person>
+    </group>
+    <group name="Fromis_9">
+        <person name="Saerom">
+            <average>NaN</average>
+            <variance>NaN</variance>
+        </person>
+        <person name="Hayoung">
+            <average>NaN</average>
+            <variance>NaN</variance>
+        </person>
+        <person name="Gyuri">
+            <average>NaN</average>
+            <variance>NaN</variance>
+        </person>
+        <person name="Jiwon">
+            <average>NaN</average>
+            <variance>NaN</variance>
+        </person>
+        <person name="Jisun">
+            <average>NaN</average>
+            <variance>NaN</variance>
+        </person>
+        <person name="Seoyeon">
+            <average>NaN</average>
+            <variance>NaN</variance>
+        </person>
+        <person name="Chae-young">
+            <average>NaN</average>
+            <variance>NaN</variance>
+        </person>
+        <person name="Nagyung">
+            <average>NaN</average>
+            <variance>NaN</variance>
+        </person>
+        <person name="Jiheon">
+            <average>NaN</average>
+            <variance>NaN</variance>
+        </person>
+    </group>
+    <group name="(G)I-dle">
+        <person name="Miyeon">
+            <average>NaN</average>
+            <variance>NaN</variance>
+        </person>
+        <person name="Minnie">
+            <average>NaN</average>
+            <variance>NaN</variance>
+        </person>
+        <person name="Soojin">
+            <average>NaN</average>
+            <variance>NaN</variance>
+        </person>
+        <person name="Soyeon">
+            <average>NaN</average>
+            <variance>NaN</variance>
+        </person>
+        <person name="Yuqi">
+            <average>NaN</average>
+            <variance>NaN</variance>
+        </person>
+        <person name="Shuhua">
+            <average>NaN</average>
+            <variance>NaN</variance>
+        </person>
+    </group>
+    <group name="IZ*One">
+        <person name="Eunbi">
+            <average>NaN</average>
+            <variance>NaN</variance>
+        </person>
+        <person name="Sakura">
+            <average>NaN</average>
+            <variance>NaN</variance>
+        </person>
+        <person name="Hyewon">
+            <average>NaN</average>
+            <variance>NaN</variance>
+        </person>
+        <person name="Yena">
+            <average>NaN</average>
+            <variance>NaN</variance>
+        </person>
+        <person name="Chaeyeon">
+            <average>NaN</average>
+            <variance>NaN</variance>
+        </person>
+        <person name="Chaewon">
+            <average>NaN</average>
+            <variance>NaN</variance>
+        </person>
+        <person name="Minju">
+            <average>NaN</average>
+            <variance>NaN</variance>
+        </person>
+        <person name="Nako">
+            <average>NaN</average>
+            <variance>NaN</variance>
+        </person>
+        <person name="Hitomi">
+            <average>NaN</average>
+            <variance>NaN</variance>
+        </person>
+        <person name="Yuri">
+            <average>NaN</average>
+            <variance>NaN</variance>
+        </person>
+        <person name="Yujin">
+            <average>NaN</average>
+            <variance>NaN</variance>
+        </person>
+        <person name="Wonyoung">
+            <average>NaN</average>
+            <variance>NaN</variance>
+        </person>
+    </group>
+</groups>
