@@ -21,7 +21,6 @@ import javax.imageio.ImageIO;
 import pt.lzgpom.bot.model.Group;
 import pt.lzgpom.bot.model.Person;
 import pt.lzgpom.bot.model.bracket.Challenger;
-import pt.lzgpom.bot.model.bracket.impl.ChallengerImpl;
 
 public class Utils {
 
@@ -69,11 +68,11 @@ public class Utils {
         String[] tmp = input.nextLine().split(REGEX_SPLITTER);
 
         if (tmp.length == 2) {
-          out.add(new ChallengerImpl(tmp[0], tmp[1]));
+          out.add(new Challenger(tmp[0], tmp[1]));
         }
 
         if (tmp.length == 3) {
-          out.add(new ChallengerImpl(tmp[0], tmp[1], tmp[2]));
+          out.add(new Challenger(tmp[0], tmp[1], tmp[2]));
         }
       }
 
@@ -96,7 +95,7 @@ public class Utils {
 
     for (Group group : groups) {
       for (Person person : group.getPeople()) {
-        challengers.add(new ChallengerImpl(person.getName(), group.getName()));
+        challengers.add(new Challenger(person.getName(), group.getName()));
       }
     }
 

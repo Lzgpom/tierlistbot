@@ -1,4 +1,4 @@
-package pt.lzgpom.bot.commands.group;
+package pt.lzgpom.bot.commands.tierlist.real;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -10,54 +10,52 @@ import net.dv8tion.jda.core.entities.User;
 import pt.lzgpom.bot.commands.Command;
 import pt.lzgpom.bot.lib.Config;
 import pt.lzgpom.bot.model.Bot;
-import pt.lzgpom.bot.model.Group;
-import pt.lzgpom.bot.util.Converter;
+import pt.lzgpom.bot.model.realtierlist.RealTierList;
 import pt.lzgpom.bot.util.Utils;
+import pt.lzgpom.bot.util.real.ImageRealTierList;
 
-public class GroupGet implements Command {
-
-  public GroupGet() {
-
-  }
+public class RealGet implements Command {
 
   @Override
   public List<String> getCommands() {
-    java.util.List<String> commands = new ArrayList<>();
-    commands.add("getgroup");
-    commands.add("gg");
+    List<String> commands = new ArrayList<>();
+    commands.add("realget");
+    commands.add("rget");
     return commands;
   }
 
   @Override
   public String getDescription() {
-    return "Retrieves a group and shows it.";
+    return "Retrieves a real tier list from the bot.";
   }
 
   @Override
   public void run(String[] args, Bot bot, MessageChannel channel, User user) {
     try {
-      Group group;
+      RealTierList list;
 
       if (Utils.isNumeric(args[0])) {
         int index = Integer.parseInt(args[0]) - 1;
 
         if (index < bot.getGroups().size()) {
-          group = bot.getGroups().get(index);
+          list = bot.getRealTierLists().get(index);
         } else {
-          channel.sendMessage("Invalid group index.").queue();
+          channel.sendMessage("Invalid real tier list index.").queue();
           return;
         }
 
       } else {
-        group = bot.getGroupByName(args[0]);
+        list = bot.getRealTierListById(args[0]);
 
-        if (group == null) {
-          channel.sendMessage("Invalid group id.").queue();
+        if (list == null) {
+          channel.sendMessage("Invalid real tier list id.").queue();
           return;
         }
       }
 
-      channel.sendMessage(Converter.groupToMessage(group)).queue();
+      channel.sendFile(pt.lzgpom.bot.util.bracket.Utils.bufferedImageToInputStream(
+          ImageRealTierList.createImage(list)), "realTierList.jpg")
+          .queue();
     } catch (IndexOutOfBoundsException e) {
       channel.sendMessage("Not enough arguments.").queue();
     }
@@ -70,7 +68,8 @@ public class GroupGet implements Command {
     eb.setColor(Color.YELLOW);
 
     eb.addField("Description:", getDescription(), false);
-    eb.addField("Usage:", getCommandName() + " <group id>", false);
+    eb.addField("Usage:", getCommandName() + " <real tier list id>\n" +
+        getCommandName() + "<index>", false);
     eb.addField("Example: ", getCommandName() + " Twice", false);
 
     return eb.build();

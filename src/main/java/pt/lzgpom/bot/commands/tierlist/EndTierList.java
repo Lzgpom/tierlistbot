@@ -1,64 +1,50 @@
 package pt.lzgpom.bot.commands.tierlist;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
-
-import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
 import pt.lzgpom.bot.commands.Command;
-import pt.lzgpom.bot.lib.Config;
+import pt.lzgpom.bot.commands.utils.General;
 import pt.lzgpom.bot.model.Bot;
 
-public class EndTierList implements Command
-{
-	public EndTierList()
-	{
-		
-	}
-	
-	@Override
-	public List<String> getCommands() 
-	{
-		java.util.List<String> commands = new ArrayList<>();
-		commands.add("end");
-		return commands;
-	}
-	
-	@Override
-	public String getDescription()
-	{
-		return "Terminates the tierlist in progress.";
-	}
+public class EndTierList implements Command {
 
-	@Override
-	public void run(String[] args, Bot bot, MessageChannel channel, User user)
-	{
-		channel.sendMessage("Calculating scores...").queue();
-		
-		if(!bot.getTierListManager().hasTierListStarted())
-		{
-			channel.sendMessage("There is no tierlist in making.").queue();
-			return;
-		}
-		
-		bot.getTierListManager().end(channel);
-		
-	}
+  public EndTierList() {
 
-	@Override
-	public MessageEmbed getHelpMessage() 
-	{
-		EmbedBuilder eb = new EmbedBuilder();
-		eb.setTitle(Config.PREFIX + getCommandName(), null);
-		eb.setColor(Color.YELLOW);
-		
-		eb.addField("Description:", getDescription(), false);
-		eb.addField("Usage:", getCommandName(), false);
-		eb.addField("Example: ", getCommandName(), false);
-		
-		return eb.build();
-	}
+  }
+
+  @Override
+  public List<String> getCommands() {
+    java.util.List<String> commands = new ArrayList<>();
+    commands.add("end");
+    return commands;
+  }
+
+  @Override
+  public String getDescription() {
+    return "Terminates the tierlist in progress.";
+  }
+
+  @Override
+  public void run(String[] args, Bot bot, MessageChannel channel, User user) {
+
+    if (bot.getTierListManager().hasTierListStarted()) {
+      channel.sendMessage("Calculating scores...").queue();
+      bot.getTierListManager().end(channel);
+      return;
+    }
+
+    if(bot.getRealTierManager().isRealTierListStarted()) {
+      channel.sendMessage("Calculating scores...").queue();
+      bot.getRealTierManager().end(channel);
+    }
+
+  }
+
+  @Override
+  public MessageEmbed getHelpMessage() {
+    return General.buildHelpMessage(this);
+  }
 }

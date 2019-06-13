@@ -16,6 +16,7 @@ import com.googlecode.charts4j.Plots;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageChannel;
@@ -66,7 +67,7 @@ public class GraphCompare implements Command {
   @Override
   public void run(String[] args, Bot bot, MessageChannel channel, User user) {
     try {
-      HashMap<String, String> colors = Utils.readColors();
+      Map<String, String> colors = Utils.readColors();
 
       TierList tierlist = bot.getTierListById(args[0]);
 
@@ -155,7 +156,7 @@ public class GraphCompare implements Command {
    * @return The new Plot line created.
    */
   private Line createLine(Person person, List<? extends Number> scores, int max,
-      HashMap<String, String> colors) {
+      Map<String, String> colors) {
     Line line = Plots.newLine(DataUtil.scaleWithinRange(1, max, scores));
 
     String color = colors.get(person.getName());

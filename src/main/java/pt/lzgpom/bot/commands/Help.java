@@ -3,7 +3,6 @@ package pt.lzgpom.bot.commands;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
-
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.entities.MessageEmbed;
@@ -11,98 +10,85 @@ import net.dv8tion.jda.core.entities.User;
 import pt.lzgpom.bot.lib.Config;
 import pt.lzgpom.bot.model.Bot;
 
-public class Help implements Command 
-{
-	private static final String INVALID_PAGE_NUMBER = "Invalid page number.";
+public class Help implements Command {
 
-	public Help() 
-	{
+  private static final String INVALID_PAGE_NUMBER = "Invalid page number.";
 
-	}
+  public Help() {
 
-	@Override
-	public List<String> getCommands() 
-	{
-		java.util.List<String> commands = new ArrayList<>();
-		commands.add("help");
-		return commands;
-	}
+  }
 
-	@Override
-	public String getDescription()
-	{
-		return "This command is used to get help...";
-	}
+  @Override
+  public List<String> getCommands() {
+    java.util.List<String> commands = new ArrayList<>();
+    commands.add("help");
+    return commands;
+  }
 
-	@Override
-	public void run(String[] args, Bot bot, MessageChannel channel, User user)
-	{
-		int totalPages = (int) Math.ceil((double) bot.getCommandManager().getCommandList().size() / Config.LISTS_PER_PAGE);
-		int page = 1;
+  @Override
+  public String getDescription() {
+    return "This command is used to get help...";
+  }
 
-		if (args.length > 0) 
-		{
-			try
-			{
-				page = Integer.parseInt(args[0]);
+  @Override
+  public void run(String[] args, Bot bot, MessageChannel channel, User user) {
+    int totalPages = (int) Math
+        .ceil((double) bot.getCommandManager().getCommandList().size() / Config.LISTS_PER_PAGE);
+    int page = 1;
 
-				if (page > totalPages || page < 1)
-				{
-					channel.sendMessage(INVALID_PAGE_NUMBER).queue();
-					return;
-				}
-			}
-			
-			catch (NumberFormatException e) 
-			{
-				Command command = bot.getCommandManager().getCommandById(args[0]);
+    if (args.length > 0) {
+      try {
+        page = Integer.parseInt(args[0]);
 
-				if (command != null)
-				{
-					channel.sendMessage(command.getHelpMessage()).queue();
-					return;
-				}
-				else 
-				{
-					channel.sendMessage("There is not such a command.").queue();
-					return;
-				}
-			}
-		}
+        if (page > totalPages || page < 1) {
+          channel.sendMessage(INVALID_PAGE_NUMBER).queue();
+          return;
+        }
+      } catch (NumberFormatException e) {
+        Command command = bot.getCommandManager().getCommandById(args[0]);
 
-		EmbedBuilder eb = new EmbedBuilder();
+        if (command != null) {
+          channel.sendMessage(command.getHelpMessage()).queue();
+          return;
+        } else {
+          channel.sendMessage("There is not such a command.").queue();
+          return;
+        }
+      }
+    }
 
-		eb.setTitle("List of commands:", null);
-		eb.setColor(Color.YELLOW);
+    EmbedBuilder eb = new EmbedBuilder();
 
-		int min = Config.LISTS_PER_PAGE * (page - 1);
-		int max = Config.LISTS_PER_PAGE * page > bot.getCommandManager().getCommandList().size()
-				? bot.getCommandManager().getCommandList().size() : Config.LISTS_PER_PAGE * page;
+    eb.setTitle("List of commands:", null);
+    eb.setColor(Color.YELLOW);
 
-		for (int i = min; i < max; i++)
-		{
-			Command command = bot.getCommandManager().getCommandList().get(i);
-			String id = String.format("%d - %s", i + 1, command.getCommandName());
-			String description = command.getDescription();
-			eb.addField(id, description, false);
-		}
+    int min = Config.LISTS_PER_PAGE * (page - 1);
+    int max = Config.LISTS_PER_PAGE * page > bot.getCommandManager().getCommandList().size()
+        ? bot.getCommandManager().getCommandList().size() : Config.LISTS_PER_PAGE * page;
 
-		eb.setAuthor("TierListBot", null, Config.ICON);
-		eb.setFooter(String.format("Page %d/%d", page, totalPages), null);
+    for (int i = min; i < max; i++) {
+      Command command = bot.getCommandManager().getCommandList().get(i);
+      String id = String.format("%d - %s", i + 1, command.getCommandName());
+      String description = command.getDescription();
+      eb.addField(id, description, false);
+    }
 
-		channel.sendMessage(eb.build()).queue();
-	}
+    eb.setAuthor("TierListBot", null, Config.ICON);
+    eb.setFooter(String.format("Page %d/%d", page, totalPages), null);
 
-	@Override
-	public MessageEmbed getHelpMessage() {
-		EmbedBuilder eb = new EmbedBuilder();
-		eb.setTitle(Config.PREFIX + "help", null);
-		eb.setColor(Color.YELLOW);
+    channel.sendMessage(eb.build()).queue();
+  }
 
-		eb.addField("Description:", "Shows how to use the commands", false);
-		eb.addField("Usage:", getCommandName() + "\n" + getCommandName() + " <command>", false);
-		eb.addField("Example: ", getCommandName() + " tierlist", false);
+  @Override
+  public MessageEmbed getHelpMessage() {
+    EmbedBuilder eb = new EmbedBuilder();
+    eb.setTitle(Config.PREFIX + "help", null);
+    eb.setColor(Color.YELLOW);
 
-		return eb.build();
-	}
+    eb.addField("Description:", "Shows how to use the commands", false);
+    eb.addField("Usage:", getCommandName() + "\n" + getCommandName() + " <command>", false);
+    eb.addField("Example: ", getCommandName() + " tierlist", false);
+
+    return eb.build();
+  }
 }

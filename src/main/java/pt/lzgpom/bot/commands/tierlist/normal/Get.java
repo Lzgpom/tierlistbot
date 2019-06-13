@@ -1,4 +1,4 @@
-package pt.lzgpom.bot.commands.tierlist;
+package pt.lzgpom.bot.commands.tierlist.normal;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -45,7 +45,7 @@ public class Get implements Command {
         if (index < bot.getTierLists().size()) {
           list = bot.getTierLists().get(index);
         } else {
-          channel.sendMessage("Invalid tierlist index.").queue();
+          channel.sendMessage("Invalid Tier List index.").queue();
           return;
         }
 
