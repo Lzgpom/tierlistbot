@@ -15,7 +15,7 @@ import java.util.Set;
 
 public class AIImageDuel
 {
-    private static final String ASSET_VS_LOCATION = "save/assets/vs.png";
+    private static final String ASSET_VS_LOCATION = "target/classes/assets/vs.png";
 
     private static final int MARGIN_PADDING_HORIZONTAL = 20;
     private static final int MARGIN_PADDING_VERTICAL = 20;
@@ -36,7 +36,7 @@ public class AIImageDuel
 
     /**
      * Creates a instance of AIImageDuel.
-     * @param duel The duel to draw.
+     * @param duel The assets to draw.
      * @param counters The counters that each user has.
      * @param minorDisagrees The minor disagrees that each user has.
      */
