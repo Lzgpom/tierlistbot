@@ -69,7 +69,7 @@ public class ChallengerScore implements Comparable<ChallengerScore> {
    * @return the tier of this person.
    */
   public int getTier() {
-    return score / RealTierList.TIER_VALUE;
+    return ((int) Math.round((double) score / RealTierList.TIER_VALUE));
   }
 
   /**
