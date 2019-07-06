@@ -214,7 +214,7 @@ public class Bracket implements Command {
    * Treats the start part of minor disagrees per round.
    *
    * @param user The user who is going to decide.
-   * @param duel The assets to check the minor disagrees.
+   * @param duel The duel to check the minor disagrees.
    * @return A map with the winners for each user. The map might be empty which mean no one had a
    * minor disagree.
    */
@@ -268,7 +268,7 @@ public class Bracket implements Command {
    * Checks if someone disagreed with the previous answer.
    *
    * @param channel The message channel.
-   * @param duel The assets to counter.
+   * @param duel The duel to counter.
    * @param userWinners The map with the user's choices.
    * @param winner The winner selected by the user.
    * @return If someone disagreed, other false.
@@ -289,7 +289,7 @@ public class Bracket implements Command {
   }
 
   /**
-   * After the assets it awaits for someone to counter or for all the participants to continue.
+   * After the duel it awaits for someone to counter or for all the participants to continue.
    *
    * @param channel The message channel.
    * @param user The {@link User} who decided this round.
@@ -315,7 +315,7 @@ public class Bracket implements Command {
           User counterUser = addCounter(user, reactions, duel);
 
           if (counterUser != null) {
-            channel.sendMessage(String.format("%s countered the assets!!!", counterUser.getName()))
+            channel.sendMessage(String.format("%s countered the duel!!!", counterUser.getName()))
                 .queue();
             return;
           }
@@ -342,7 +342,7 @@ public class Bracket implements Command {
    *
    * @param user The user who is voting.
    * @param reactions The reactions of the message.
-   * @param duel The assets to add the counter.
+   * @param duel The deul to add the counter.
    * @return If a counter was added, otherwise false.
    */
   private User addCounter(User user, List<MessageReaction> reactions, DuelSolo duel) {
@@ -450,7 +450,7 @@ public class Bracket implements Command {
   }
 
   /**
-   * Creates a {@link MessageEmbed} of a assets.
+   * Creates a {@link MessageEmbed} of a duels.
    *
    * @param duel The {@link Duel} to convert to message.
    * @param user The {@link User} to answer this dual.

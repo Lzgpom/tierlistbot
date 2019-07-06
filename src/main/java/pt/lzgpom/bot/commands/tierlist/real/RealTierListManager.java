@@ -40,6 +40,7 @@ public class RealTierListManager {
   private final List<RealTierList> lists = new ArrayList<>();
   private String id;
   private boolean hasStarted;
+  private int numTiers;
   private Map<User, List<Pair<Challenger, Long>>> messages = new HashMap<>();
 
   public RealTierListManager(Bot bot) {
@@ -66,8 +67,9 @@ public class RealTierListManager {
     return hasStarted;
   }
 
-  void start(List<User> users, List<Challenger> challengers, String id) {
+  void start(List<User> users, List<Challenger> challengers, String id, int numTiers) {
     this.hasStarted = true;
+    this.numTiers = numTiers;
     this.id = id;
 
     LOGGER.log(Level.INFO, "Starting real tier list.");
@@ -94,11 +96,17 @@ public class RealTierListManager {
               .sendMessage(challengerToMessage(challenger, colors.get(i))).complete();
           messages.get(user).add(new Pair<>(challenger, message.getIdLong()));
 
+          int j = 1;
           for (Tier tier : Utils.getTiers().values()) {
             message.addReaction(tier.getReaction()).queue();
+            if(j >= numTiers){
+              break;
+            }
+
+            j++;
           }
 
-          for (int j = 1; j <= PLACES_REACTIONS; j++) {
+          for (j = 1; j <= PLACES_REACTIONS; j++) {
             message.addReaction(Utils.getReactionInPos(j)).queue();
           }
         }
@@ -255,7 +263,7 @@ public class RealTierListManager {
 
     Collections.shuffle(scores);
     Collections.sort(scores);
-    return new RealTierList(id + "_" + user.getName(), scores);
+    return new RealTierList(id + "_" + user.getName(), scores, numTiers);
   }
 
   /**
@@ -270,6 +278,7 @@ public class RealTierListManager {
     lists.clear();
     messages.clear();
     id = "";
+    numTiers = 0;
     hasStarted = false;
   }
 

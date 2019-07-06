@@ -20,21 +20,17 @@ public class RealTierList {
   static final int TIER_VALUE = 1000;
 
   private String id;
+  private int numTiers;
   private Map<String, TierPeople> tierList;
 
   protected RealTierList() {
     //Used for xml file.
   }
 
-  public RealTierList(String id) {
+  public RealTierList(String id, List<ChallengerScore> scores, int tiers) {
     this.id = id;
     this.tierList = new LinkedHashMap<>();
-    initiateMap();
-  }
-
-  public RealTierList(String id, List<ChallengerScore> scores) {
-    this.id = id;
-    this.tierList = new LinkedHashMap<>();
+    this.numTiers = tiers;
     initiateMap();
     fillMap(scores);
   }
@@ -48,9 +44,10 @@ public class RealTierList {
    */
   public static RealTierList join(String id, Collection<RealTierList> lists) {
     List<ChallengerScore> scores = new ArrayList<>();
+    int numTiers = 0;
 
     for (RealTierList list : lists) {
-
+      numTiers = list.tierList.size();
       int i = 0;
       for (TierPeople people : list.tierList.values()) {
 
@@ -75,7 +72,7 @@ public class RealTierList {
     Collections.shuffle(scores);
     Collections.sort(scores);
 
-    return new RealTierList(id, scores);
+    return new RealTierList(id, scores, numTiers);
   }
 
   private void fillMap(List<ChallengerScore> scores) {
@@ -111,8 +108,13 @@ public class RealTierList {
    * Initiates the map with all tier available.
    */
   private void initiateMap() {
+    int i = 1;
     for (String tier : Utils.getTiers().keySet()) {
       tierList.put(tier, new TierPeople());
+      if(i >= numTiers) {
+        break;
+      }
+      i++;
     }
   }
 

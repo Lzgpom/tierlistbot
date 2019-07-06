@@ -35,12 +35,12 @@ public class StartRealTierList implements Command {
 
   @Override
   public void run(String[] args, Bot bot, MessageChannel channel, User user) {
-    if(bot.getRealTierManager().isRealTierListStarted()) {
+    if (bot.getRealTierManager().isRealTierListStarted()) {
       channel.sendMessage("There's already a real tier list going...").queue();
       return;
     }
 
-    if (args.length < 3) {
+    if (args.length < 4) {
       channel.sendMessage("Not enough arguments...").queue();
       return;
     }
@@ -50,20 +50,33 @@ public class StartRealTierList implements Command {
       return;
     }
 
+    int numTiers;
+
+    try {
+      numTiers = Integer.parseInt(args[1]);
+      if(numTiers < 1 || numTiers > pt.lzgpom.bot.util.Utils.getTiers().size()) {
+        channel.sendMessage("Number of tiers too small or too big...").queue();
+        return;
+      }
+    } catch (NumberFormatException e) {
+      channel.sendMessage("Invalid number of tiers.").queue();
+      return;
+    }
+
     List<Challenger> challengers;
 
-    if (args[1].equalsIgnoreCase(FILE_MODIFIER)) {
-      challengers = Utils.readChallengersFile(args[2]);
+    if (args[2].equalsIgnoreCase(FILE_MODIFIER)) {
+      challengers = Utils.readChallengersFile(args[3]);
 
       if (challengers.isEmpty()) {
         channel.sendMessage("Invalid file or file is empty.").queue();
         return;
       }
 
-    } else if (args[1].equalsIgnoreCase(GROUPS_MODIFIER)) {
+    } else if (args[2].equalsIgnoreCase(GROUPS_MODIFIER)) {
       List<Group> groups = new ArrayList<>();
 
-      for (int i = 2; i < args.length; i++) {
+      for (int i = 3; i < args.length; i++) {
         Group group = bot.getGroupByName(args[i]);
 
         if (group == null) {
@@ -91,7 +104,7 @@ public class StartRealTierList implements Command {
       return;
     }
 
-    bot.getRealTierManager().start(voters, challengers, args[0]);
+    bot.getRealTierManager().start(voters, challengers, args[0], numTiers);
   }
 
   @Override
@@ -101,8 +114,8 @@ public class StartRealTierList implements Command {
     eb.setColor(Color.YELLOW);
 
     eb.addField("Description:", getDescription(), false);
-    eb.addField("Usage:", getCommandName() + " <id> -g <group_id>.. \n"
-        + "getCommandName() + \" <id> -f <filename>", false);
+    eb.addField("Usage:", getCommandName() + " <id> <number_tiers> -g <group_id>.. \n"
+        + "getCommandName() + \" <id> <number_tiers> -f <filename>", false);
     eb.addField("Example: ",
         getCommandName() + " Twice TWICE_NEW_MV https://www.youtube.com/watch?v=Fm5iP0S1z9w",
         false);
