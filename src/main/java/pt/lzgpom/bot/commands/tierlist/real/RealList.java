@@ -5,9 +5,9 @@ import java.util.List;
 import net.dv8tion.jda.core.entities.MessageEmbed.Field;
 import pt.lzgpom.bot.commands.ListCommandAdapter;
 import pt.lzgpom.bot.model.Bot;
-import pt.lzgpom.bot.model.realtierlist.RealTierList;
+import pt.lzgpom.bot.model.realtierlist.RealTierListGlobal;
 
-public class RealList extends ListCommandAdapter<RealTierList> {
+public class RealList extends ListCommandAdapter<RealTierListGlobal> {
 
   @Override
   public List<String> getCommands() {
@@ -23,16 +23,16 @@ public class RealList extends ListCommandAdapter<RealTierList> {
   }
 
   @Override
-  public List<RealTierList> getElements(Bot bot) {
+  public List<RealTierListGlobal> getElements(Bot bot) {
     return bot.getRealTierLists();
   }
 
   @Override
-  public Converter<RealTierList> getConverter() {
+  public Converter<RealTierListGlobal> getConverter() {
     return (element, pos) -> {
       String id = String.format("%d - %s", pos + 1, element.id());
       String description = String
-          .format("Total of %d participants.", element.numberOfParticipants());
+          .format("Total of %d voters.", element.getNumberOfVoter());
       return new Field(id, description, false);
     };
   }

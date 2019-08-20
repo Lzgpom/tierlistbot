@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import pt.lzgpom.bot.model.bracket.Challenger;
 import pt.lzgpom.bot.model.realtierlist.RealTierList;
+import pt.lzgpom.bot.model.realtierlist.RealTierListGlobal;
 import pt.lzgpom.bot.util.Utils;
 
 public class ImageRealTierList {
@@ -22,6 +23,8 @@ public class ImageRealTierList {
   private static final int CHALLENGER_IMAGE_SIZE = TIER_HEIGHT - (CHALLENGER_SCALE_DOWN * 2);
   private static final int MARGIN_PADDING = 25;
   private static final int TIER_PADDING = 18;
+
+  private static final int GLOBAL_IMAGE_PADDING = MARGIN_PADDING * 2;
 
   private static final int FONT_SIZE = 50;
 
@@ -79,6 +82,40 @@ public class ImageRealTierList {
                 .getScaledInstance(CHALLENGER_IMAGE_SIZE, CHALLENGER_IMAGE_SIZE, Image.SCALE_SMOOTH),
             x, y + CHALLENGER_SCALE_DOWN, null);
       }
+    }
+
+    return image;
+  }
+
+  public static BufferedImage createGlobalImage(RealTierListGlobal global) {
+    List<BufferedImage> images = new ArrayList<>();
+    int height = 0;
+    int width = 0;
+
+    for(RealTierList list : global.getLists()) {
+      BufferedImage tmp = createImage(list);
+      height = tmp.getHeight();
+      width += tmp.getWidth();
+      images.add(tmp);
+    }
+
+    width += (images.size() - 1) * GLOBAL_IMAGE_PADDING;
+
+    BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+
+    Graphics2D g = image.createGraphics();
+    g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
+        RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+
+    //Sets the background color
+    g.setColor(BACKGROUND_COLOR);
+    g.fillRect(0, 0, width, height);
+
+    int x = 0;
+
+    for(BufferedImage img : images) {
+      g.drawImage(img, x, 0, null);
+      x += img.getWidth() + GLOBAL_IMAGE_PADDING;
     }
 
     return image;

@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+import net.dv8tion.jda.core.entities.User;
 import pt.lzgpom.bot.model.Person;
 import pt.lzgpom.bot.model.bracket.Challenger;
 import pt.lzgpom.bot.util.Utils;
@@ -19,21 +20,28 @@ public class RealTierList {
 
   static final int TIER_VALUE = 1000;
 
-  private String id;
+  private String voterName;
+  private String voterColor;
   private Map<String, TierPeople> tierList;
 
   protected RealTierList() {
     //Used for xml file.
   }
 
-  public RealTierList(String id) {
-    this.id = id;
+  public RealTierList(String voterName) {
+    this.voterName = voterName;
     this.tierList = new LinkedHashMap<>();
     initiateMap();
   }
 
-  public RealTierList(String id, List<ChallengerScore> scores) {
-    this.id = id;
+  public RealTierList(List<ChallengerScore> scores) {
+    this.tierList = new LinkedHashMap<>();
+    initiateMap();
+    fillMap(scores);
+  }
+
+  public RealTierList(String voterName, List<ChallengerScore> scores) {
+    this.voterName = voterName;
     this.tierList = new LinkedHashMap<>();
     initiateMap();
     fillMap(scores);
@@ -42,11 +50,10 @@ public class RealTierList {
   /**
    * Joins a collection of {@link RealTierList} into one.
    *
-   * @param id The id of the new tierlist.
    * @param lists The {@link Collection} of {@link RealTierList}.
    * @return The new {@link RealTierList} created.
    */
-  public static RealTierList join(String id, Collection<RealTierList> lists) {
+  public static RealTierList join(Collection<RealTierList> lists) {
     List<ChallengerScore> scores = new ArrayList<>();
 
     for (RealTierList list : lists) {
@@ -75,7 +82,7 @@ public class RealTierList {
     Collections.shuffle(scores);
     Collections.sort(scores);
 
-    return new RealTierList(id, scores);
+    return new RealTierList(scores);
   }
 
   private void fillMap(List<ChallengerScore> scores) {
@@ -117,20 +124,6 @@ public class RealTierList {
   }
 
   /**
-   * Sums the total number of participants.
-   * @return The total number of participants.
-   */
-  public int numberOfParticipants() {
-    int total = 0;
-
-    for(TierPeople tier : tierList.values()) {
-      total += tier.iterator().size();
-    }
-
-    return total;
-  }
-
-  /**
    * Adds a person to a tier. <br/> The people should be added in order.
    *
    * @param tier The tier to add the {@link Challenger}.
@@ -141,12 +134,12 @@ public class RealTierList {
   }
 
   /**
-   * Returns the id of this {@link RealTierList}.
+   * Returns the {@link User#getName()} of this {@link RealTierList}.
    *
-   * @return the id of this {@link RealTierList}.
+   * @return the {@link User#getName()} of this {@link RealTierList}.
    */
-  public String id() {
-    return this.id;
+  public String getVoterName() {
+    return this.voterName;
   }
 
   @Override

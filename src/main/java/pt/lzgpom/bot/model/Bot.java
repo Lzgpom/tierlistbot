@@ -9,6 +9,7 @@ import pt.lzgpom.bot.commands.CommandManager;
 import pt.lzgpom.bot.commands.tierlist.normal.TierListManager;
 import pt.lzgpom.bot.commands.tierlist.real.RealTierListManager;
 import pt.lzgpom.bot.model.realtierlist.RealTierList;
+import pt.lzgpom.bot.model.realtierlist.RealTierListGlobal;
 
 @XmlRootElement(name = "centre")
 public class Bot {
@@ -23,7 +24,7 @@ public class Bot {
 
   @XmlElementWrapper(name = "realtierlists")
   @XmlElement(name = "realtierlist")
-  private final List<RealTierList> realTierLists;
+  private final List<RealTierListGlobal> realTierLists;
 
   private final CommandManager commandManager = new CommandManager(this);
   private final TierListManager tierListManager = new TierListManager(this);
@@ -109,7 +110,7 @@ public class Bot {
   //=Real Tier List utilities.=
   //===========================
   public boolean hasRealTierListWithId(String id) {
-    for (RealTierList list : realTierLists) {
+    for (RealTierListGlobal list : realTierLists) {
       if (list.id().equals(id)) {
         return true;
       }
@@ -118,16 +119,16 @@ public class Bot {
     return false;
   }
 
-  public void addRealTierList(RealTierList list) {
+  public void addRealTierList(RealTierListGlobal list) {
     this.realTierLists.add(list);
   }
 
-  public List<RealTierList> getRealTierLists() {
+  public List<RealTierListGlobal> getRealTierLists() {
     return this.realTierLists;
   }
 
-  public RealTierList getRealTierListById(String id) {
-    for (RealTierList list : realTierLists) {
+  public RealTierListGlobal getRealTierListById(String id) {
+    for (RealTierListGlobal list : realTierLists) {
       if (list.id().equals(id)) {
         return list;
       }

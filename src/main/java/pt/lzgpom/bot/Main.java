@@ -5,6 +5,11 @@ import net.dv8tion.jda.core.JDABuilder;
 import net.dv8tion.jda.core.OnlineStatus;
 import net.dv8tion.jda.core.entities.Game;
 import pt.lzgpom.bot.commands.*;
+import pt.lzgpom.bot.commands.tierlist.*;
+import pt.lzgpom.bot.commands.tierlist.normal.*;
+import pt.lzgpom.bot.commands.tierlist.real.*;
+import pt.lzgpom.bot.commands.graph.*;
+import pt.lzgpom.bot.commands.group.*;
 import pt.lzgpom.bot.model.Bot;
 import pt.lzgpom.bot.util.ConfigLoader;
 import pt.lzgpom.bot.util.SaveLoader;
@@ -37,7 +42,6 @@ public class Main {
     bot.getCommandManager().addCommand(new Video());
     bot.getCommandManager().addCommand(new Bracket());
     bot.getCommandManager().addCommand(new Sort());
-    bot.getCommandManager().addCommand(new MiniGame());
 
     JDABuilder builder = new JDABuilder(AccountType.BOT);
     builder.setToken("");

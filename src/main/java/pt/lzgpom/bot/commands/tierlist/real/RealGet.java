@@ -10,11 +10,13 @@ import net.dv8tion.jda.core.entities.User;
 import pt.lzgpom.bot.commands.Command;
 import pt.lzgpom.bot.lib.Config;
 import pt.lzgpom.bot.model.Bot;
-import pt.lzgpom.bot.model.realtierlist.RealTierList;
+import pt.lzgpom.bot.model.realtierlist.RealTierListGlobal;
 import pt.lzgpom.bot.util.Utils;
 import pt.lzgpom.bot.util.real.ImageRealTierList;
 
 public class RealGet implements Command {
+
+  private static final String SHOW_VOTES_PARAM = "show";
 
   @Override
   public List<String> getCommands() {
@@ -32,7 +34,7 @@ public class RealGet implements Command {
   @Override
   public void run(String[] args, Bot bot, MessageChannel channel, User user) {
     try {
-      RealTierList list;
+      RealTierListGlobal list;
 
       if (Utils.isNumeric(args[0])) {
         int index = Integer.parseInt(args[0]) - 1;
@@ -53,8 +55,16 @@ public class RealGet implements Command {
         }
       }
 
+      if (args.length > 1) {
+        if (args[1].equals(SHOW_VOTES_PARAM)) {
+          channel.sendFile(pt.lzgpom.bot.util.bracket.Utils
+                  .bufferedImageToInputStream(ImageRealTierList.createGlobalImage(list)),
+              "realTierList.jpg").queue();
+        }
+      }
+
       channel.sendFile(pt.lzgpom.bot.util.bracket.Utils.bufferedImageToInputStream(
-          ImageRealTierList.createImage(list)), "realTierList.jpg")
+          ImageRealTierList.createImage(list.getGlobalTierList())), "realTierList.jpg")
           .queue();
     } catch (IndexOutOfBoundsException e) {
       channel.sendMessage("Not enough arguments.").queue();

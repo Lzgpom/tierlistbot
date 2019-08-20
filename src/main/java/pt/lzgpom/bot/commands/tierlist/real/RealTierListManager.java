@@ -23,6 +23,7 @@ import pt.lzgpom.bot.model.Bot;
 import pt.lzgpom.bot.model.bracket.Challenger;
 import pt.lzgpom.bot.model.realtierlist.ChallengerScore;
 import pt.lzgpom.bot.model.realtierlist.RealTierList;
+import pt.lzgpom.bot.model.realtierlist.RealTierListGlobal;
 import pt.lzgpom.bot.model.realtierlist.Tier;
 import pt.lzgpom.bot.util.SaveLoader;
 import pt.lzgpom.bot.util.Utils;
@@ -174,17 +175,13 @@ public class RealTierListManager {
       return;
     }
 
-    for(RealTierList list : lists) {
-      bot.addRealTierList(list);
-    }
-
     executor.shutdown();
 
-    RealTierList joined = RealTierList.join(id, lists);
+    RealTierListGlobal joined = new RealTierListGlobal(id, lists);
     bot.addRealTierList(joined);
     LOGGER.log(Level.INFO, "Final real tier list: \n" + joined.toString());
     channel.sendFile(pt.lzgpom.bot.util.bracket.Utils.bufferedImageToInputStream(
-        ImageRealTierList.createImage(joined)), "realTierList.jpg")
+        ImageRealTierList.createImage(joined.getGlobalTierList())), "realTierList.jpg")
         .queue();
     SaveLoader.saveCentre(bot);
     clear();
@@ -255,7 +252,7 @@ public class RealTierListManager {
 
     Collections.shuffle(scores);
     Collections.sort(scores);
-    return new RealTierList(id + "_" + user.getName(), scores);
+    return new RealTierList(user.getName(), scores);
   }
 
   /**
