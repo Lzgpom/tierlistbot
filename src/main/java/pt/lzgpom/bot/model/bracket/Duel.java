@@ -20,9 +20,9 @@ public interface Duel {
   List<Challenger> getSecondChallenger();
 
   /**
-   * Returns the round in which the assets occurs.
+   * Returns the round in which the duels occurs.
    *
-   * @return The round in which the assets occurs.
+   * @return The round in which the duels occurs.
    */
   int getRound();
 
@@ -34,7 +34,7 @@ public interface Duel {
   int getFreeSpots();
 
   /**
-   * Adds a team to the assets
+   * Adds a team to the duels
    *
    * @param team The {@link Challenger team} to add.
    */

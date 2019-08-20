@@ -1,0 +1,57 @@
+﻿Nayeon:Twice
+Jeongyeon:Twice
+Momo:Twice
+Sana:Twice
+Jihyo:Twice
+Mina:Twice
+Dahyun:Twice
+Chaeyoung:Twice
+Tzuyu:Twice
+Yeonwoo:Momoland
+Nancy:Momoland
+Joy:Red Velvet
+Irene:Red Velvet
+Seulgi:Red Velvet
+Eunha:Gfriend
+Sowon:Gfriend
+Yuju:Gfriend
+Umji:Gfriend
+Yerin:Gfriend
+Sinb:Gfriend
+Sunmi:Solo
+Iu:Solo
+Chungha:Solo
+Ryujin:Itzy
+Yeji:Itzy
+Lia:Itzy
+Chaeryoung:Itzy
+Mijoo:Lovelyz
+Jiho:Oh my girl
+Soyeon:G-Idle
+Seolhyun:AOA
+Jennie:Blackpink
+Jisoo:Blackpink
+Rosé:Blackpink
+Lisa:Blackpink
+Tayeon:SNSD
+Moonbyul:Mamamoo
+Solar:Mamamoo
+CL:2NE1
+Amber:f x
+Minju:IZ*One
+Hyewon:IZ*One
+Chaewon:IZ*One
+Yuri:IZ*One
+Hitomi:IZ*One
+Sakura:IZ*One
+Yena:IZ*One
+Nako:IZ*One
+Eunbi:IZ*One
+Chaeyon:IZ*One
+Suzy:Miss A
+Nagyung:Fromis 9
+Hyunjin:Loona
+Olivia Hye:Loona
+Hyosung:Secret
+Yeri:Red Velvet
+Wendy:Red Velvet

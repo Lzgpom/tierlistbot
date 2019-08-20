@@ -125,8 +125,8 @@ public class BracketSolo {
   }
 
   /**
-   * Returns the next assets to be decided. If the isRandom flag is true it returns a random
-   * assets.
+   * Returns the next duel to be decided. If the isRandom flag is true it returns a random
+   * duel.
    *
    * @return The next TBD Duel, or null if there are none left.
    */
@@ -165,7 +165,7 @@ public class BracketSolo {
   /**
    * Sets the winner of the dual and moves the winning team to the next part.
    *
-   * @param duel The {@link DuelSolo assets}
+   * @param duel The {@link DuelSolo duel}
    * @param user The {@link User} who choose the winner.
    * @param winner The position of the winner.
    */
@@ -175,9 +175,9 @@ public class BracketSolo {
   }
 
   /**
-   * Adds a counter to a assets.
+   * Adds a counter to a duel.
    *
-   * @param duel The assets to add the counter.
+   * @param duel The duel to add the counter.
    * @param user The user who countered.
    */
   public void addDuelCounter(DuelSolo duel, User user) {
@@ -197,7 +197,7 @@ public class BracketSolo {
   /**
    * Moves the winner to the next part.
    *
-   * @param duel The assets of which the winner moves on.
+   * @param duel The duel of which the winner moves on.
    */
   private void moveOnWinner(DuelSolo duel) {
     if (currentPart == 0) {
