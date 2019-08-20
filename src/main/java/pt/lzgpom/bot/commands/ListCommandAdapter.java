@@ -3,6 +3,7 @@ package pt.lzgpom.bot.commands;
 import java.awt.Color;
 import java.util.List;
 import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.MessageEmbed.Field;
@@ -16,7 +17,7 @@ public abstract class ListCommandAdapter<T> implements Command {
   private static final String INVALID_PAGE_NUMBER = "Invalid page number.";
 
   @Override
-  public void run(String[] args, Bot bot, MessageChannel channel, User user) {
+  public void run(String[] args, Bot bot, MessageChannel channel, Member user) {
     List<T> elements = getElements(bot);
     int totalPages = (int) Math.ceil((double) elements.size() / Config.LISTS_PER_PAGE);
     int page = 1;

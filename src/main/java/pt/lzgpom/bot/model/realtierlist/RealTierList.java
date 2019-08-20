@@ -1,5 +1,6 @@
 package pt.lzgpom.bot.model.realtierlist;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -20,30 +21,23 @@ public class RealTierList {
 
   static final int TIER_VALUE = 1000;
 
-  private String voterName;
-  private String voterColor;
+  private String voterId;
   private Map<String, TierPeople> tierList;
 
   protected RealTierList() {
     //Used for xml file.
   }
 
-  public RealTierList(String voterName) {
-    this.voterName = voterName;
+  public RealTierList(List<ChallengerScore> scores, int numTiers) {
     this.tierList = new LinkedHashMap<>();
-    initiateMap();
-  }
-
-  public RealTierList(List<ChallengerScore> scores) {
-    this.tierList = new LinkedHashMap<>();
-    initiateMap();
+    initiateMap(numTiers);
     fillMap(scores);
   }
 
-  public RealTierList(String voterName, List<ChallengerScore> scores) {
-    this.voterName = voterName;
+  public RealTierList(String voterId, List<ChallengerScore> scores, int numTiers) {
+    this.voterId = voterId;
     this.tierList = new LinkedHashMap<>();
-    initiateMap();
+    initiateMap(numTiers);
     fillMap(scores);
   }
 
@@ -55,8 +49,10 @@ public class RealTierList {
    */
   public static RealTierList join(Collection<RealTierList> lists) {
     List<ChallengerScore> scores = new ArrayList<>();
+    int numTiers = 0;
 
     for (RealTierList list : lists) {
+      numTiers = list.getNumberOfTiers();
 
       int i = 0;
       for (TierPeople people : list.tierList.values()) {
@@ -82,7 +78,7 @@ public class RealTierList {
     Collections.shuffle(scores);
     Collections.sort(scores);
 
-    return new RealTierList(scores);
+    return new RealTierList(scores, numTiers);
   }
 
   private void fillMap(List<ChallengerScore> scores) {
@@ -117,9 +113,14 @@ public class RealTierList {
   /**
    * Initiates the map with all tier available.
    */
-  private void initiateMap() {
+  private void initiateMap(int numTiers) {
+    int i = 0;
     for (String tier : Utils.getTiers().keySet()) {
+      if (i >= numTiers) {
+        break;
+      }
       tierList.put(tier, new TierPeople());
+      i++;
     }
   }
 
@@ -134,12 +135,12 @@ public class RealTierList {
   }
 
   /**
-   * Returns the {@link User#getName()} of this {@link RealTierList}.
+   * Returns the {@link User#getId()} of this {@link RealTierList}.
    *
-   * @return the {@link User#getName()} of this {@link RealTierList}.
+   * @return the {@link User#getId()} of this {@link RealTierList}.
    */
   public String getVoterName() {
-    return this.voterName;
+    return this.voterId;
   }
 
   @Override

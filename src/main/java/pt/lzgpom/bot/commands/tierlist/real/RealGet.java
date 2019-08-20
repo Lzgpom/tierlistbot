@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
@@ -32,7 +33,7 @@ public class RealGet implements Command {
   }
 
   @Override
-  public void run(String[] args, Bot bot, MessageChannel channel, User user) {
+  public void run(String[] args, Bot bot, MessageChannel channel, Member user) {
     try {
       RealTierListGlobal list;
 
@@ -58,7 +59,7 @@ public class RealGet implements Command {
       if (args.length > 1) {
         if (args[1].equals(SHOW_VOTES_PARAM)) {
           channel.sendFile(pt.lzgpom.bot.util.bracket.Utils
-                  .bufferedImageToInputStream(ImageRealTierList.createGlobalImage(list)),
+                  .bufferedImageToInputStream(ImageRealTierList.createGlobalImage(list, user.getGuild())),
               "realTierList.jpg").queue();
         }
       }

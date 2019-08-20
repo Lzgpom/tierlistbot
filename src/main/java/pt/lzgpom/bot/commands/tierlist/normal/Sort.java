@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.entities.MessageEmbed;
@@ -40,7 +41,7 @@ public class Sort implements Command {
   }
 
   @Override
-  public void run(String[] args, Bot bot, MessageChannel channel, User user) {
+  public void run(String[] args, Bot bot, MessageChannel channel, Member user) {
     ExecutorService executor = Executors.newSingleThreadExecutor();
 
     executor.submit(() ->
@@ -62,10 +63,10 @@ public class Sort implements Command {
       }
 
       channel.sendMessage(String
-          .format("%s, the sort of the group %s has been started on your PMs.", user.getName(),
+          .format("%s, the sort of the group %s has been started on your PMs.", user.getUser().getName(),
               group.getName())).queue();
 
-      MessageChannel privateChannel = user.openPrivateChannel().complete();
+      MessageChannel privateChannel = user.getUser().openPrivateChannel().complete();
       Message beginMessage = privateChannel.sendMessage("Sort:").complete();
 
       List<Person> people = new ArrayList<>(group.getPeople());
@@ -131,7 +132,7 @@ public class Sort implements Command {
         while (true) {
           if (hasReacted(privateChannel, endMessage.getIdLong(), REACTION_CONTINUE)) {
             try {
-              bot.getTierListManager().autoCompleteWithSort(user, people);
+              bot.getTierListManager().autoCompleteWithSort(user.getUser(), people);
             } catch (IllegalArgumentException ex) {
               privateChannel.sendMessage(ex.getMessage()).queue();
             }

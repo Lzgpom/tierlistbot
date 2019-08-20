@@ -13,6 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.util.Pair;
 import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.entities.MessageEmbed;
@@ -41,6 +42,7 @@ public class RealTierListManager {
   private final List<RealTierList> lists = new ArrayList<>();
   private String id;
   private boolean hasStarted;
+  private int numTiers;
   private Map<User, List<Pair<Challenger, Long>>> messages = new HashMap<>();
 
   public RealTierListManager(Bot bot) {
@@ -67,9 +69,10 @@ public class RealTierListManager {
     return hasStarted;
   }
 
-  void start(List<User> users, List<Challenger> challengers, String id) {
+  void start(List<User> users, List<Challenger> challengers, String id, int numTiers) {
     this.hasStarted = true;
     this.id = id;
+    this.numTiers = numTiers;
 
     LOGGER.log(Level.INFO, "Starting real tier list.");
 
@@ -95,8 +98,14 @@ public class RealTierListManager {
               .sendMessage(challengerToMessage(challenger, colors.get(i))).complete();
           messages.get(user).add(new Pair<>(challenger, message.getIdLong()));
 
+          int i2 = 0;
           for (Tier tier : Utils.getTiers().values()) {
+            if (i2 >= numTiers) {
+              break;
+            }
             message.addReaction(tier.getReaction()).queue();
+
+            i2++;
           }
 
           for (int j = 1; j <= PLACES_REACTIONS; j++) {
@@ -123,7 +132,7 @@ public class RealTierListManager {
             }
             messageIds.clear();
 
-            RealTierList realTierList = getRealTierList(privateChannel, user, id, true,
+            RealTierList realTierList = getRealTierList(privateChannel, user, true,
                 messageIds);
 
             if (realTierList != null) {
@@ -143,7 +152,7 @@ public class RealTierListManager {
     executor.shutdown();
   }
 
-  public void end(MessageChannel channel) {
+  public void end(MessageChannel channel, Guild guild) {
     lists.clear();
 
     List<Future<?>> tasks = new ArrayList<>();
@@ -152,7 +161,7 @@ public class RealTierListManager {
     for (User user : messages.keySet()) {
       tasks.add(executor.submit(() ->
       {
-        RealTierList realTierList = getRealTierList(channel, user, id, false, new ArrayList<>());
+        RealTierList realTierList = getRealTierList(channel, user, false, new ArrayList<>());
 
         if (realTierList == null) {
           return;
@@ -181,13 +190,15 @@ public class RealTierListManager {
     bot.addRealTierList(joined);
     LOGGER.log(Level.INFO, "Final real tier list: \n" + joined.toString());
     channel.sendFile(pt.lzgpom.bot.util.bracket.Utils.bufferedImageToInputStream(
+        ImageRealTierList.createGlobalImage(joined, guild)), "realGlobalTierList.jpg").queue();
+    channel.sendFile(pt.lzgpom.bot.util.bracket.Utils.bufferedImageToInputStream(
         ImageRealTierList.createImage(joined.getGlobalTierList())), "realTierList.jpg")
         .queue();
     SaveLoader.saveCentre(bot);
     clear();
   }
 
-  private synchronized RealTierList getRealTierList(MessageChannel channel, User user, String id,
+  private synchronized RealTierList getRealTierList(MessageChannel channel, User user,
       boolean preview, List<Long> messageIds) {
     MessageChannel privateChannel = user.openPrivateChannel().complete();
 
@@ -252,7 +263,7 @@ public class RealTierListManager {
 
     Collections.shuffle(scores);
     Collections.sort(scores);
-    return new RealTierList(user.getName(), scores);
+    return new RealTierList(user.getId(), scores, numTiers);
   }
 
   /**
@@ -268,6 +279,7 @@ public class RealTierListManager {
     messages.clear();
     id = "";
     hasStarted = false;
+    numTiers = 0;
   }
 
   private MessageEmbed challengerToMessage(Challenger challenger, Color color) {

@@ -5,8 +5,11 @@ import static pt.lzgpom.bot.lib.Config.GROUPS_MODIFIER;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
@@ -34,7 +37,7 @@ public class StartRealTierList implements Command {
   }
 
   @Override
-  public void run(String[] args, Bot bot, MessageChannel channel, User user) {
+  public void run(String[] args, Bot bot, MessageChannel channel, Member user) {
     if (bot.getRealTierManager().isRealTierListStarted()) {
       channel.sendMessage("There's already a real tier list going...").queue();
       return;
@@ -54,7 +57,7 @@ public class StartRealTierList implements Command {
 
     try {
       numTiers = Integer.parseInt(args[1]);
-      if(numTiers < 1 || numTiers > pt.lzgpom.bot.util.Utils.getTiers().size()) {
+      if (numTiers < 1 || numTiers > pt.lzgpom.bot.util.Utils.getTiers().size()) {
         channel.sendMessage("Number of tiers too small or too big...").queue();
         return;
       }
@@ -97,7 +100,7 @@ public class StartRealTierList implements Command {
       return;
     }
 
-    List<User> voters = General.getVotersFromMessage(channel);
+    List<User> voters = General.getVotersFromMessage(channel, null);
 
     if (voters.isEmpty()) {
       channel.sendMessage("Not enough participants").queue();

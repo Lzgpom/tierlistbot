@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.entities.MessageEmbed;
@@ -35,7 +36,7 @@ public class StartTierList implements Command {
   }
 
   @Override
-  public void run(String[] args, Bot bot, MessageChannel channel, User user) {
+  public void run(String[] args, Bot bot, MessageChannel channel, Member user) {
     if (bot.getTierListManager().hasTierListStarted()) {
       channel.sendMessage("There is a tierlist in making already.").queue();
       return;
@@ -58,7 +59,7 @@ public class StartTierList implements Command {
       return;
     }
 
-    List<User> voters = General.getVotersFromMessage(channel);
+    List<User> voters = General.getVotersFromMessage(channel, null);
 
     if (voters.size() == 0) {
       channel.sendMessage("No one wanted to vote...").queue();

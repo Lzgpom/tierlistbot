@@ -1,5 +1,6 @@
 package pt.lzgpom.bot.commands;
 
+import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
@@ -36,9 +37,9 @@ public interface Command {
    * @param args The arguments passed to the command.
    * @param bot The bot with all the info.
    * @param channel The channel where the message was sent.
-   * @param user The author of the message.
+   * @param member The author of the message.
    */
-  void run(String[] args, Bot bot, MessageChannel channel, User user);
+  void run(String[] args, Bot bot, MessageChannel channel, Member member);
 
   /**
    * Returns a message with the way the command is used.

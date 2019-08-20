@@ -15,11 +15,13 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Guild;
+import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.MessageReaction;
 import net.dv8tion.jda.core.entities.User;
+import pt.lzgpom.bot.commands.utils.General;
 import pt.lzgpom.bot.lib.Config;
 import pt.lzgpom.bot.model.Bot;
 import pt.lzgpom.bot.model.Group;
@@ -81,35 +83,21 @@ public class Bracket implements Command {
    * @param minorDisagrees The number of minor disagrees all user have.
    */
   private void start(MessageChannel channel, int counters, int minorDisagrees) {
-    Message message = channel.sendMessage("React to participate!").complete();
-    long id = message.getIdLong();
-    message.addReaction("🤚").queue();
-    Guild guild = message.getGuild();
-
-    try {
-      TimeUnit.SECONDS.sleep(Config.TIME_TO_REACT);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
-
-    participants = new ArrayList<>(
-        channel.getMessageById(id).complete().getReactions().get(0).getUsers().complete());
-    participants.remove(participants.size() - 1);
+    this.userColors = new HashMap<>();
+    participants = General.getVotersFromMessage(channel, userColors);
     Collections.shuffle(participants);
 
     this.counters = new HashMap<>();
     this.minorDisagrees = new HashMap<>();
-    this.userColors = new HashMap<>();
 
     for (User user : participants) {
       this.counters.put(user, counters);
       this.minorDisagrees.put(user, minorDisagrees);
-      this.userColors.put(user, guild.getMember(user).getColor());
     }
   }
 
   @Override
-  public void run(String[] args, Bot bot, MessageChannel channel, User author) {
+  public void run(String[] args, Bot bot, MessageChannel channel, Member author) {
     if (isBracketRunning()) {
       channel.sendMessage("There is a bracket already going...").queue();
       return;

@@ -125,6 +125,7 @@ public class AIImageDuel {
       y += CHALLENGER_IMAGE_SIZE + MARGIN_PADDING_VERTICAL + FONT_SIZE;
     }
 
+    g.dispose();
     return image;
   }
 

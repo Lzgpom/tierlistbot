@@ -142,6 +142,7 @@ public class ImageBracket {
       }
     }
 
+    g.dispose();
     return image;
   }
 }

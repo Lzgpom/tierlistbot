@@ -44,7 +44,7 @@ public class Main {
     bot.getCommandManager().addCommand(new Sort());
 
     JDABuilder builder = new JDABuilder(AccountType.BOT);
-    builder.setToken("");
+    builder.setToken("NDYzNDU2Mjg2NDk1OTk3OTYy.XM5PCw.T8Tskguz_2FnoDunUpZwdAhUhrI");
     builder.setAutoReconnect(true);
     builder.setStatus(OnlineStatus.ONLINE);
     builder.setGame(new Game("Watching KPOP!") {

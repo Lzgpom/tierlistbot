@@ -2,6 +2,7 @@ package pt.lzgpom.bot.commands.tierlist;
 
 import java.util.ArrayList;
 import java.util.List;
+import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
@@ -28,7 +29,7 @@ public class EndTierList implements Command {
   }
 
   @Override
-  public void run(String[] args, Bot bot, MessageChannel channel, User user) {
+  public void run(String[] args, Bot bot, MessageChannel channel, Member user) {
 
     if (bot.getTierListManager().hasTierListStarted()) {
       channel.sendMessage("Calculating scores...").queue();
@@ -38,7 +39,7 @@ public class EndTierList implements Command {
 
     if(bot.getRealTierManager().isRealTierListStarted()) {
       channel.sendMessage("Calculating scores...").queue();
-      bot.getRealTierManager().end(channel);
+      bot.getRealTierManager().end(channel, user.getGuild());
     }
 
   }

@@ -2,6 +2,7 @@ package pt.lzgpom.bot.commands.tierlist;
 
 import java.util.ArrayList;
 import java.util.List;
+import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
@@ -28,7 +29,7 @@ public class CancelTierList implements Command {
   }
 
   @Override
-  public void run(String[] args, Bot bot, MessageChannel channel, User user) {
+  public void run(String[] args, Bot bot, MessageChannel channel, Member user) {
     if (bot.getTierListManager().hasTierListStarted()) {
       bot.getTierListManager().clear();
       channel.sendMessage("The tierlist was canceled.").queue();

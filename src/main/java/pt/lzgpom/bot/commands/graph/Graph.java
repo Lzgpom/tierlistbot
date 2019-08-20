@@ -20,6 +20,7 @@ import java.util.Map;
 import java.util.Random;
 import javafx.util.Pair;
 import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.User;
@@ -70,7 +71,7 @@ public class Graph implements Command {
   }
 
   @Override
-  public void run(String[] args, Bot bot, MessageChannel channel, User user) {
+  public void run(String[] args, Bot bot, MessageChannel channel, Member user) {
     try {
       Map<String, String> colors = Utils.readColors();
 
