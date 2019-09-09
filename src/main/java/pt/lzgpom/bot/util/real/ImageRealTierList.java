@@ -118,12 +118,11 @@ public class ImageRealTierList {
 
     //Sets the background color
     g.setColor(BACKGROUND_COLOR);
-    g.fillRect(0, 0, width, height);
+    g.fillRect(0, 0, width, height + GLOBAL_IMAGE_TOP_MARGIN);
 
     g.setFont(new Font("Arial", Font.PLAIN, GLOBAL_IMAGE_USER_FONT_SIZE));
 
-    g.setStroke(new BasicStroke(LINE_THICKNESS, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0,
-        new float[]{LINE_THICKNESS * 3}, 0));
+    g.setStroke(new BasicStroke(LINE_THICKNESS));
 
     int x = 0;
 
@@ -132,6 +131,7 @@ public class ImageRealTierList {
       Member member = guild.getMemberById(userIds.get(i));
 
       g.drawImage(img, x, GLOBAL_IMAGE_TOP_MARGIN, null);
+
 
       g.setColor(member.getColor());
       g.drawRect(x + LINE_THICKNESS, GLOBAL_IMAGE_TOP_MARGIN + LINE_THICKNESS,

@@ -1,6 +1,5 @@
 package pt.lzgpom.bot.model.realtierlist;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -24,8 +23,9 @@ public class RealTierList {
   private String voterId;
   private Map<String, TierPeople> tierList;
 
+  //Used for xml file.
   protected RealTierList() {
-    //Used for xml file.
+    tierList = new LinkedHashMap<>();
   }
 
   public RealTierList(List<ChallengerScore> scores, int numTiers) {
