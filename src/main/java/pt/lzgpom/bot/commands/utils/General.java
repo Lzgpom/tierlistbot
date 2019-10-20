@@ -1,6 +1,7 @@
 package pt.lzgpom.bot.commands.utils;
 
 import java.awt.Color;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -40,7 +41,8 @@ public class General {
     return eb.build();
   }
 
-  public static List<User> getVotersFromMessage(MessageChannel channel, Map<User, Color> userColors) {
+  public static List<User> getVotersFromMessage(MessageChannel channel,
+      Map<User, Color> userColors) {
     Message message = channel.sendMessage("React to be a voter!").complete();
     long id = message.getIdLong();
     message.addReaction("🤚").queue();
@@ -56,8 +58,8 @@ public class General {
         .complete();
     voters.remove(voters.size() - 1);
 
-    if(userColors != null) {
-      for(User user : voters) {
+    if (userColors != null) {
+      for (User user : voters) {
         userColors.put(user, guild.getMember(user).getColor());
       }
     }

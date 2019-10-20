@@ -118,11 +118,12 @@ public class StartRealTierList implements Command {
 
     eb.addField("Description:", getDescription(), false);
     eb.addField("Usage:", getCommandName() + " <id> <number_tiers> -g <group_id>.. \n"
-        + "getCommandName() + \" <id> <number_tiers> -f <filename>", false);
+        + getCommandName() + " <id> <number_tiers> -f <filename>", false);
     eb.addField("Example: ",
-        getCommandName() + " Twice TWICE_NEW_MV https://www.youtube.com/watch?v=Fm5iP0S1z9w",
+        getCommandName() + " TWICE_REAL 3 -g Twice",
         false);
 
     return eb.build();
   }
 }
+

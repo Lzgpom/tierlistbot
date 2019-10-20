@@ -7,9 +7,12 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -286,7 +289,7 @@ public class Bracket implements Command {
    */
   private void doCounters(MessageChannel channel, User user, DuelSolo duel, int winner) {
     if (hasAnyoneCounter(user)) {
-      Message message = channel.sendMessage(String.format("%s choose %s, do you wish to counter?",
+      Message message = channel.sendMessage(String.format("%s chose %s, do you wish to counter?",
           user.getName(), (winner == 0) ? REACTION_A : REACTION_B)).complete();
       long messageId = message.getIdLong();
 
@@ -315,10 +318,13 @@ public class Bracket implements Command {
           hasShownBracket = true;
         }
 
-        List<User> users = getPeopleReacted(reactions, REACTION_CONTINUE);
+        Set<User> users = new HashSet<>(getPeopleReacted(reactions, REACTION_CONTINUE));
         users.remove(user);
+        users.removeIf(User::isBot);
+        System.out.println(users);
+        System.out.println(getUsersWithCounters(user));
 
-        if (users.size() == participants.size() - 1) {
+        if (users.containsAll(getUsersWithCounters(user))) {
           return;
         }
       }
@@ -565,5 +571,25 @@ public class Bracket implements Command {
     }
 
     return false;
+  }
+
+  /**
+   * Creates a list of {@link User} that have at least a counter.
+   *
+   * @return A list of {@link User} that have at least a counter.
+   */
+  private Set<User> getUsersWithCounters(User current) {
+    Set<User> users = new HashSet<>();
+
+    for (Entry<User, Integer> entry : counters.entrySet()) {
+      if (entry.getKey().equals(current)) {
+        continue;
+      }
+      if (entry.getValue() > 0) {
+        users.add(entry.getKey());
+      }
+    }
+
+    return users;
   }
 }
